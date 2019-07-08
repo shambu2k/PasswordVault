@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Password Vault</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string-array name="DEVICE_TYPE">
+        <item>Android phone</item>
+        <item>Android tablet</item>
+        <item>iPhone</item>
+        <item>iPad</item>
+        <item>iPod</item>
+        <item>Macbook</item>
+        <item>Windows Laptop</item>
+        <item>Windows Desktop</item>
+        <item>Linux Laptop</item>
+        <item>Linux Desktop</item>
+        <item>ChromeOS device</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="DEVICE_SECURITY_TYPE">
+        <item>PIN</item>
+        <item>Password</item>
+        <item>Pattern</item>
+    </string-array>
+
+
+</resources>

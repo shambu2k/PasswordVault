@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/card_item_ofdeviceRV"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:padding="5dp"
+        android:background="@drawable/row_select_background"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/devicetype_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="iPad"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/devicename_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Device name: "
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/securitytype_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Security type: "
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/pinorpassorpattern_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="unlock code"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
