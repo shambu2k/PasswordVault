@@ -1,4 +1,4 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Fragments_dir;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.shambu.passwordvault.MainActivity;
+import com.shambu.passwordvault.R;
+
 public class settings_fragment extends Fragment {
 
     private Switch drkmode;
@@ -25,7 +28,7 @@ public class settings_fragment extends Fragment {
         drkmode = view.findViewById(R.id.darkmode_switch);
 
 
-        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
         if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
             drkmode.setChecked(true);
@@ -46,7 +49,7 @@ public class settings_fragment extends Fragment {
                 if(drkmode.isChecked()){
                     drkmode.setText("Disable Dark Mode");
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("DARKMODE_TOGGLE", "YES");
                     editor.commit();
@@ -58,7 +61,7 @@ public class settings_fragment extends Fragment {
                 else{
                     drkmode.setText("Enable Dark Mode");
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("DARKMODE_TOGGLE", "NO");
                     editor.commit();

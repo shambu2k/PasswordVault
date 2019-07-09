@@ -1,6 +1,8 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Fragments_dir.passwords_innerFrags;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,12 +29,20 @@ import android.widget.TextView;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
+import com.shambu.passwordvault.DEVICE_adapter;
+import com.shambu.passwordvault.DEVICE_data;
+import com.shambu.passwordvault.DEVICE_sqlHelper;
+import com.shambu.passwordvault.Fragments_dir.passwords_fragment;
+import com.shambu.passwordvault.R;
+
+import net.sqlcipher.database.SQLiteDatabase;
 
 import java.util.List;
 
-public class device_fragment extends Fragment implements DEVICE_adapter.ClickAdapterListenerDevice{
+public class device_fragment extends Fragment implements DEVICE_adapter.ClickAdapterListenerDevice {
 
     private RecyclerView recyclerView;
+    private SQLiteDatabase dbR, dbW;
     private DEVICE_adapter adapter;
     private FloatingActionButton fab;
     private List<DEVICE_data> data_list;
@@ -145,10 +155,12 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.device_frag_layout, container, false);
+        SQLiteDatabase.loadLibs(getContext());
         recyclerView = view.findViewById(R.id.devices_rv);
         fab = view.findViewById(R.id.devices_fab);
         database = new DEVICE_sqlHelper(getContext());
-        data_list = database.getallDEVICEdata();
+        dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+        data_list = database.getallDEVICEdata(dbR);
 
         adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -160,7 +172,17 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
             public void onClick(View v) {
                 singleData = new DEVICE_data();
                 singleData.setData_type(passwords_fragment.which_type);
-                addNew = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
+                SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+
+                if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
+                    addNew = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
+                }
+                else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
+                    addNew = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
+                }
+                else{
+                    addNew = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
+                }
                 addNew.setContentView(R.layout.add_new_device_dialog);
                 dtype_spin = addNew.findViewById(R.id.dtype_spinner);
                 dsecutype_spin = addNew.findViewById(R.id.dsecutype_spinner);
@@ -199,9 +221,11 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                         if(singleData.getSecurityType().equals("Pattern")){
                             if(singleData.getPINorPassorPattern()!=null){
                                 database = new DEVICE_sqlHelper(getContext());
-                                database.insertDEVICEdata(singleData);
 
-                                data_list = database.getallDEVICEdata();
+                                dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                                database.insertDEVICEdata(singleData, dbW);
+                                dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                                data_list = database.getallDEVICEdata(dbR);
 
                                 adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
                                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -216,9 +240,10 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                         else{
                             if(!singleData.getPINorPassorPattern().equals("")){
                                 database = new DEVICE_sqlHelper(getContext());
-                                database.insertDEVICEdata(singleData);
-
-                                data_list = database.getallDEVICEdata();
+                                dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                                database.insertDEVICEdata(singleData, dbW);
+                                dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                                data_list = database.getallDEVICEdata(dbR);
 
                                 adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
                                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -385,7 +410,17 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
         singleData_editDialog = new DEVICE_data();
         final List<Integer> selectedItemPositions =
                 adapter.DEVICEgetSelectedItems();
-        editDialog = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
+        SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+
+        if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
+            editDialog = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
+        }
+        else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
+            editDialog = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
+        }
+        else{
+            editDialog = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
+        }
         editDialog.setContentView(R.layout.add_new_device_dialog);
 
         dtype_spin = editDialog.findViewById(R.id.dtype_spinner);
@@ -453,9 +488,12 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                 if(singleData_editDialog.getSecurityType().equals("Pattern")){
                     if(singleData_editDialog.getPINorPassorPattern()!=null){
                         database = new DEVICE_sqlHelper(getContext());
-                        database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID());
+                        dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
 
-                        data_list = database.getallDEVICEdata();
+                        database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID(), dbW);
+
+                        dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                        data_list = database.getallDEVICEdata(dbR);
 
                         adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -470,9 +508,13 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                 else{
                     if(!singleData_editDialog.getPINorPassorPattern().equals("")){
                         database = new DEVICE_sqlHelper(getContext());
-                        database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID());
+                        dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
 
-                        data_list = database.getallDEVICEdata();
+                        database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID(), dbW);
+
+                        dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                        data_list = database.getallDEVICEdata(dbR);
+
 
                         adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());

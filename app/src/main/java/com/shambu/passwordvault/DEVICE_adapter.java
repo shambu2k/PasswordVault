@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.HapticFeedbackConstants;
@@ -12,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import net.sqlcipher.database.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,9 +161,11 @@ public class DEVICE_adapter extends RecyclerView.Adapter<DEVICE_adapter.DEVICE_c
     }
 
     public void DEVICEremoveData(int position) {
+        SQLiteDatabase.loadLibs(mContext);
         Log.d(msg, "removeData method called (DEVICE adapter class)");
         database = new DEVICE_sqlHelper(mContext);
-        database.DEVICEremoveRow(adapter_list.get(position).getSqldeviceID());
+        SQLiteDatabase dbW = database.getWritableDatabase(mContext.getString(R.string.yek_lsq));
+        database.DEVICEremoveRow(adapter_list.get(position).getSqldeviceID(), dbW);
         adapter_list.remove(position);
         resetCurrentIndex();
     }

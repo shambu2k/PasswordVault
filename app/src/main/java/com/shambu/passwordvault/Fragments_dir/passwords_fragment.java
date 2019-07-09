@@ -1,4 +1,4 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Fragments_dir;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,13 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.device_fragment;
+import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.google_fragment;
+import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.othermails_fragment;
+import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.otherwebsites_fragment;
+import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.social_media_fragment;
+import com.shambu.passwordvault.R;
 
 public class passwords_fragment extends Fragment {
 

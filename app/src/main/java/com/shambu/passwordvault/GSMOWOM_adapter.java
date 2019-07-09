@@ -1,20 +1,18 @@
 package com.shambu.passwordvault;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+
+import net.sqlcipher.database.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,6 @@ public class GSMOWOM_adapter extends RecyclerView.Adapter<GSMOWOM_adapter.GSMOWO
     private String msg = GSMOWOM_adapter.class.getSimpleName();
 
     private static int currentSelectedIndex = -1;
-
 
     public interface ClickAdapterListener {
 
@@ -172,9 +169,11 @@ public class GSMOWOM_adapter extends RecyclerView.Adapter<GSMOWOM_adapter.GSMOWO
     }
 
     public void removeData(int position) {
+        SQLiteDatabase.loadLibs(mContext);
         Log.d(msg, "removeData method called (GSMOWOM adapter class)");
         database = new GSMOWOM_sqlHelper(mContext);
-        database.removeRow(adapterList.get(position).getD_ID());
+        SQLiteDatabase dbW = database.getWritableDatabase(mContext.getString(R.string.yek_lsq));
+        database.removeRow(adapterList.get(position).getD_ID(), dbW);
         adapterList.remove(position);
         resetCurrentIndex();
     }

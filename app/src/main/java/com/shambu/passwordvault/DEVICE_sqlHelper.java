@@ -3,9 +3,10 @@ package com.shambu.passwordvault;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,7 @@ public class DEVICE_sqlHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertDEVICEdata(DEVICE_data data){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void insertDEVICEdata(DEVICE_data data, SQLiteDatabase db){
         ContentValues values = new ContentValues();
         values.put(COL_type, data.getData_type());
         values.put(COL_devicetype, data.getDevice_Type());
@@ -54,8 +54,7 @@ public class DEVICE_sqlHelper extends SQLiteOpenHelper {
         Log.d(msg, "Inserted DEVICE DATA!!!");
     }
 
-    public List<DEVICE_data> getallDEVICEdata(){
-        SQLiteDatabase db = this.getReadableDatabase();
+    public List<DEVICE_data> getallDEVICEdata(SQLiteDatabase db){
         String query = "SELECT * FROM "+TABLE_NAME+" WHERE "+COL_type+" LIKE '%Device%'";
         List<DEVICE_data> list_data = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, null);
@@ -70,14 +69,12 @@ public class DEVICE_sqlHelper extends SQLiteOpenHelper {
         return list_data;
     }
 
-    public void DEVICEremoveRow(int rowID){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void DEVICEremoveRow(int rowID, SQLiteDatabase db){
         db.delete(TABLE_NAME, COL_id+" = "+rowID, null);
         db.close();
     }
 
-    public void DEVICEupdateRow(DEVICE_data data, int rowID){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void DEVICEupdateRow(DEVICE_data data, int rowID, SQLiteDatabase db){
         ContentValues values = new ContentValues();
         values.put(COL_type, data.getData_type());
         values.put(COL_devicetype, data.getDevice_Type());

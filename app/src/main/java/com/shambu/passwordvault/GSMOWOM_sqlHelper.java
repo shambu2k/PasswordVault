@@ -3,12 +3,12 @@ package com.shambu.passwordvault;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class GSMOWOM_sqlHelper extends SQLiteOpenHelper {
@@ -42,8 +42,7 @@ public class GSMOWOM_sqlHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertData(GSMOWOM_data data){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void insertData(GSMOWOM_data data, SQLiteDatabase db){
         ContentValues values = new ContentValues();
         values.put(COL_type, data.getD_type());
         values.put(COL_provider, data.getD_provider());
@@ -57,8 +56,7 @@ public class GSMOWOM_sqlHelper extends SQLiteOpenHelper {
         Log.d(msg, "Inserted!!!");
     }
 
-    public List<GSMOWOM_data> getData(String Get_type, String Get_provider){
-        SQLiteDatabase db = this.getReadableDatabase();
+    public List<GSMOWOM_data> getData(String Get_type, String Get_provider, SQLiteDatabase db){
         String query = "";
         if(Get_provider.equals("Others") && Get_type.equals("Social")){
             query = "SELECT * FROM "+TABLE_NAME+" WHERE "+COL_type+" LIKE '%"+Get_type+"%' AND "+COL_provider+" NOT LIKE '%Facebook%' AND "+COL_provider+" NOT LIKE '%Twitter%' AND "+COL_provider+" NOT LIKE '%Instagram%' AND "+COL_provider+" NOT LIKE '%Reddit%' AND "+COL_provider+" NOT LIKE '%LinkedIn%' AND "+COL_provider+" NOT LIKE '%Tubmlr%' AND "+COL_provider+" NOT LIKE '%Pinterest%' AND "+COL_provider+" NOT LIKE '%Medium%' AND "+COL_provider+" NOT LIKE '%Tinder%'";
@@ -83,14 +81,12 @@ public class GSMOWOM_sqlHelper extends SQLiteOpenHelper {
         return list_data;
     }
 
-    public void removeRow(int rowID){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void removeRow(int rowID, SQLiteDatabase db){
         db.delete(TABLE_NAME, COL_id+" = "+rowID, null);
         db.close();
     }
 
-    public void updateRow(GSMOWOM_data data, int rowID){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void updateRow(GSMOWOM_data data, int rowID, SQLiteDatabase db){
         ContentValues values = new ContentValues();
         values.put(COL_type, data.getD_type());
         values.put(COL_provider, data.getD_provider());

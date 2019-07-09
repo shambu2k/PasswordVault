@@ -1,4 +1,4 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Fragments_dir.passwords_innerFrags;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -22,9 +22,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.shambu.passwordvault.Fragments_dir.passwords_fragment;
+import com.shambu.passwordvault.GSMOWOM_adapter;
+import com.shambu.passwordvault.GSMOWOM_data;
+import com.shambu.passwordvault.GSMOWOM_sqlHelper;
+import com.shambu.passwordvault.R;
+
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.util.List;
 
-public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.ClickAdapterListener {
+public class othermails_fragment extends Fragment implements GSMOWOM_adapter.ClickAdapterListener {
 
     private RecyclerView recyclerView;
     private GSMOWOM_adapter adapter;
@@ -32,7 +40,7 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
     private List<GSMOWOM_data> data_list;
     private GSMOWOM_sqlHelper database;
     private Dialog addNew, editDialog;
-    private String msg = otherwebsites_fragment.class.getSimpleName();
+    private String msg = othermails_fragment.class.getSimpleName();
     private ActionMode actionMode;
     private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
         @Override
@@ -128,7 +136,7 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
             actionMode.invalidate();
         }
 
-     //   actionMode = null;
+      //  actionMode = null;
     }
 
     private void deleteRows() {
@@ -145,10 +153,10 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
     private void editSelected(){
         final List<Integer> selectedItemPositions =
                 adapter.getSelectedItems();
-        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
         if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
-            editDialog = new Dialog(getContext(), android.R.style.Theme_Material);
+            editDialog = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
         }
         else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
             editDialog = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
@@ -191,10 +199,12 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
                         !sample_data.getD_pass().equals("") ||
                         !sample_data.getD_adiInfo().equals("")) {
                     database = new GSMOWOM_sqlHelper(getContext());
-                    database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID());
-                    data_list = database.getData(passwords_fragment.which_type, "OtherWebsites");
-                    Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherWebsites");
-                    adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
+                    SQLiteDatabase dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                    database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID(), dbW);
+                    SQLiteDatabase dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                    data_list = database.getData(passwords_fragment.which_type, "OtherMails", dbR);
+                    Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherMails");
+                    adapter = new GSMOWOM_adapter(data_list, getContext(), othermails_fragment.this);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
@@ -212,13 +222,15 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.otherwebsites_frag_layout, container, false);
-        recyclerView = view.findViewById(R.id.otherwebsites_rv);
-        fab = view.findViewById(R.id.otherwebsites_fab);
+        View view = inflater.inflate(R.layout.othermails_frag_layout, container, false);
+        SQLiteDatabase.loadLibs(getContext());
+        recyclerView = view.findViewById(R.id.othermails_rv);
+        fab = view.findViewById(R.id.othermails_fab);
         database = new GSMOWOM_sqlHelper(getContext());
-        data_list = database.getData(passwords_fragment.which_type, "OtherWebsites");
-        Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherWebsites");
-        adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
+        SQLiteDatabase dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+        data_list = database.getData(passwords_fragment.which_type, "OtherMails", dbR);
+        Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherMails");
+        adapter = new GSMOWOM_adapter(data_list, getContext(), othermails_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -226,10 +238,10 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
                 if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
-                    addNew = new Dialog(getContext(), android.R.style.Theme_Material);
+                    addNew = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
                 }
                 else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
                     addNew = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
@@ -265,9 +277,11 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
                                 !sample_data.getD_pass().equals("") ||
                                 !sample_data.getD_adiInfo().equals("")) {
                             database = new GSMOWOM_sqlHelper(getContext());
-                            database.insertData(sample_data);
-                            data_list = database.getData(passwords_fragment.which_type, sample_data.getD_provider());
-                            adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
+                            SQLiteDatabase dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                            database.insertData(sample_data, dbW);
+                            SQLiteDatabase dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                            data_list = database.getData(passwords_fragment.which_type, sample_data.getD_provider(), dbR);
+                            adapter = new GSMOWOM_adapter(data_list, getContext(), othermails_fragment.this);
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter);
@@ -285,6 +299,4 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
 
         return view;
     }
-
-
 }
