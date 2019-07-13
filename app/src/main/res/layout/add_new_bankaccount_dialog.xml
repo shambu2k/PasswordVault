@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/mat_bankdetails_accno"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/bankdetails_edt_accountnumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Account Number"
+                    android:inputType="number" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/mat_bankdetails_assoEmail"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/bankdetails_edt_assoEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Associated Mail ID"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/mat_bankdetails_assoPhno"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/bankdetails_edt_assoPhno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Associated Phone num"
+                    android:inputType="phone" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/mat_bankdetails_address"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/bankdetails_edt_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Address"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/mat_bankdetails_netusername"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/bankdetails_edt_userid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Netbanking User ID"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/mat_bankdetails_netpass"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/bankdetails_edt_netpass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/cc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="Credit Card Number 1"
+                    android:inputType="number"/>
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/cc1p"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="PIN"
+                    android:inputType="numberPassword" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/cc2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="Credit Card Number 2"
+                    android:inputType="number"/>
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/cc2p"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="PIN"
+                    android:inputType="numberPassword" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/cc3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="Credit Card Number 3"
+                    android:inputType="number"/>
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/cc3p"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="PIN"
+                    android:inputType="numberPassword" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/dc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="Debit Card Number  1"
+                    android:inputType="number"/>
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/dc1p"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="PIN"
+                    android:inputType="numberPassword" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/dc2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="Debit Card Number  2"
+                    android:inputType="number"/>
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/dc2p"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="PIN"
+                    android:inputType="numberPassword" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/dc3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="Debit Card Number  3"
+                    android:inputType="number"/>
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/dc3p"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="PIN"
+                    android:inputType="numberPassword" />
+
+            </LinearLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/mat_bankdetails_adinotes"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/bankdetails_edt_adiNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Notes"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/save_bankdetails_button"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="save" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+</LinearLayout>

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.banking_cat_fragment;
 import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.device_fragment;
 import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.google_fragment;
 import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.othermails_fragment;
@@ -51,10 +52,10 @@ public class passwords_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 which_type = "Bank";
-                social_media_fragment fragment_social = new social_media_fragment();
+                banking_cat_fragment fragment_banking = new banking_cat_fragment();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
-                fragmentTransaction.replace(R.id.fragment_container, fragment_social);
+                fragmentTransaction.replace(R.id.fragment_container, fragment_banking);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
