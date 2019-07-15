@@ -1,4 +1,4 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Data_classes;
 
 public class BANKING_data {
     private int bSwlID;
@@ -30,17 +30,20 @@ public class BANKING_data {
         this.adiNotes = adiNotes;
     }
 
-    public BANKING_data(int bSwlID, String bankName, String accountnum, String assoBankPhno, String assoBankmail, String bankAddress, String netBankinguserid, String netBankingpass, String adiNotes) {
+    public BANKING_data(int bSwlID, String bankName, String accountnum, String assoBankPhno, String assoBankmail, String bankAddress, String creditcardnum, String debitcardnum, String netBankinguserid, String netBankingpass, String adiNotes) {
         this.bSwlID = bSwlID;
         BankName = bankName;
         Accountnum = accountnum;
         AssoBankPhno = assoBankPhno;
         AssoBankmail = assoBankmail;
         BankAddress = bankAddress;
+        this.creditcardnum = creditcardnum;
+        this.debitcardnum = debitcardnum;
         this.netBankinguserid = netBankinguserid;
         this.netBankingpass = netBankingpass;
         this.adiNotes = adiNotes;
     }
+
 
     public int getbSwlID() {
         return bSwlID;

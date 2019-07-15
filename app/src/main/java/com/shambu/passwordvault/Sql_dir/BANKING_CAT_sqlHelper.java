@@ -1,8 +1,10 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Sql_dir;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+
+import com.shambu.passwordvault.Data_classes.BANKINGCAT_data;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
@@ -60,5 +62,13 @@ public class BANKING_CAT_sqlHelper extends SQLiteOpenHelper {
         db.close();
 
         return list_data;
+    }
+
+    public void removebankRow(int rowID, SQLiteDatabase db, SQLiteDatabase dbdetails, String bname){
+        db.delete(TABLE_NAME, COL_id+" = "+rowID, null);
+        db.close();
+        String sql = "DELETE FROM BANKING_table WHERE bankName LIKE '%"+bname+"%'";
+        dbdetails.execSQL(sql);
+        dbdetails.close();
     }
 }

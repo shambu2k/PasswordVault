@@ -1,4 +1,4 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Adapters_dir;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,6 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.shambu.passwordvault.Data_classes.BANKINGCAT_data;
+import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.bankdetails_fragment;
+import com.shambu.passwordvault.R;
+import com.shambu.passwordvault.Sql_dir.BANKING_CAT_sqlHelper;
+import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
+
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +32,8 @@ public class BANKING_CAT_adapter extends RecyclerView.Adapter<BANKING_CAT_adapte
     private List<BANKINGCAT_data> name_list;
     private ClickAdapterListenerBankingCat listener;
     private SparseBooleanArray selectedItems;
+    private BANKING_sqlHelper banking_sqlHelper;
+    private BANKING_CAT_sqlHelper banking_cat_sqlHelper;
 
 
     public BANKING_CAT_adapter(Context mContext, List<BANKINGCAT_data> name_list, ClickAdapterListenerBankingCat listener) {
@@ -117,6 +127,16 @@ public class BANKING_CAT_adapter extends RecyclerView.Adapter<BANKING_CAT_adapte
 
     private void resetCurrentIndex() {
         currentSelectedIndex = -1;
+    }
+
+    public void BCremoveData(int position){
+        SQLiteDatabase.loadLibs(mContext);
+        banking_cat_sqlHelper = new BANKING_CAT_sqlHelper(mContext);
+        banking_sqlHelper = new BANKING_sqlHelper(mContext);
+        banking_cat_sqlHelper.removebankRow(name_list.get(position).getBcSqlID(), banking_cat_sqlHelper.getWritableDatabase(mContext.getString(R.string.yek_lsq)),
+                banking_sqlHelper.getWritableDatabase(mContext.getString(R.string.yek_lsq)), name_list.get(position).getBank_name());
+        name_list.remove(position);
+        resetCurrentIndex();
     }
 
     public interface ClickAdapterListenerBankingCat {

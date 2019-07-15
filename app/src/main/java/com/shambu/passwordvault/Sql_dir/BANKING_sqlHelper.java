@@ -1,9 +1,11 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Sql_dir;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+
+import com.shambu.passwordvault.Data_classes.BANKING_data;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
@@ -75,7 +77,7 @@ public class BANKING_sqlHelper extends SQLiteOpenHelper {
         List<BANKING_data> listdata = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
-            BANKING_data data = new BANKING_data(cursor.getString(cursor.getColumnIndex(COL_Bname)), cursor.getString(cursor.getColumnIndex(COL_Accno)),
+            BANKING_data data = new BANKING_data(cursor.getInt(cursor.getColumnIndex(COL_id)), cursor.getString(cursor.getColumnIndex(COL_Bname)), cursor.getString(cursor.getColumnIndex(COL_Accno)),
                     cursor.getString(cursor.getColumnIndex(COL_Assobphno)), cursor.getString(cursor.getColumnIndex(COL_Assobmail)),
                     cursor.getString(cursor.getColumnIndex(COL_Baddr)), cursor.getString(cursor.getColumnIndex(COL_Ccnum)),
                     cursor.getString(cursor.getColumnIndex(COL_Dcnum)), cursor.getString(cursor.getColumnIndex(COL_netBuid)),
@@ -87,6 +89,39 @@ public class BANKING_sqlHelper extends SQLiteOpenHelper {
         db.close();
 
         return listdata;
+    }
+
+    public void updateBankDetails(BANKING_data data, int rowID, SQLiteDatabase db){
+        ContentValues values = new ContentValues();
+        values.put(COL_Bname, data.getBankName());
+        values.put(COL_Accno, data.getAccountnum());
+        values.put(COL_Assobphno, data.getAssoBankPhno());
+        values.put(COL_Assobmail, data.getAssoBankmail());
+        values.put(COL_Baddr, data.getBankAddress());
+        values.put(COL_Ccnum, data.getCreditcardnum());
+        values.put(COL_Dcnum, data.getDebitcardnum());
+        values.put(COL_netBuid, data.getNetBankinguserid());
+        values.put(COL_netBpass, data.getNetBankingpass());
+        values.put(COL_adiNotes, data.getAdiNotes());
+
+        db.update(TABLE_NAME, values, COL_id+" = "+rowID, null);
+        db.close();
+        Log.d(msg, "Updated!!");
+    }
+
+    public void bankNameupdate(String name, String oldBname, SQLiteDatabase db){
+        ContentValues values = new ContentValues();
+        values.put(COL_Bname, name);
+
+        String sql = "UPDATE "+TABLE_NAME+" SET " +COL_Bname+ " = '"+name+"' WHERE "+COL_Bname+" LIKE '%"+oldBname+"%'";
+        db.execSQL(sql);
+        db.close();
+        Log.d(msg, oldBname+" changed to "+name);
+    }
+
+    public void deleteAccountDetails(int rowID, SQLiteDatabase db){
+        db.delete(TABLE_NAME, COL_id+" = "+rowID, null);
+        db.close();
     }
 
 }

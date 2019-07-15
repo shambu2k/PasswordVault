@@ -1,6 +1,7 @@
 package com.shambu.passwordvault.Fragments_dir.passwords_innerFrags;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,10 +22,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.shambu.passwordvault.BANKINGCAT_data;
-import com.shambu.passwordvault.BANKING_CAT_adapter;
-import com.shambu.passwordvault.BANKING_CAT_sqlHelper;
+import com.shambu.passwordvault.Adapters_dir.BANKING_CAT_adapter;
+import com.shambu.passwordvault.Data_classes.BANKINGCAT_data;
 import com.shambu.passwordvault.R;
+import com.shambu.passwordvault.Sql_dir.BANKING_CAT_sqlHelper;
+import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -38,6 +40,8 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
     private List<BANKINGCAT_data> data_list;
     private Dialog addNew, editDialog;
     private BANKING_CAT_sqlHelper database;
+    private BANKING_sqlHelper bankingdetailsdatabase;
+    private ProgressDialog progressDialog;
     private ActionMode actionMode;
     private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
         @Override
@@ -64,7 +68,7 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
 
 
                 case R.id.action_delete:
-                    //deleteRows();
+                    deleteRows();
                     mode.finish();
                     return true;
 
@@ -227,6 +231,9 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
                         singleData.setBank_name(bname.getText().toString());
                         database.updatebankName(singleData, database.getWritableDatabase(getString(R.string.yek_lsq)), data_list.get(selectedItemPositions.get(0)).getBcSqlID());
 
+                        bankingdetailsdatabase = new BANKING_sqlHelper(getContext());
+                        bankingdetailsdatabase.bankNameupdate(bname.getText().toString(), data_list.get(selectedItemPositions.get(0)).getBank_name(), bankingdetailsdatabase.getWritableDatabase(getString(R.string.yek_lsq)));
+
                         database = new BANKING_CAT_sqlHelper(getContext());
                         data_list = database.getAllBnames(database.getReadableDatabase(getString(R.string.yek_lsq)));
                         adapter = new BANKING_CAT_adapter(getContext(), data_list, banking_cat_fragment.this);
@@ -242,5 +249,16 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
                 }
             });
         }
+    }
+
+    private void deleteRows(){
+        List<Integer> selectedItemPositions =
+                adapter.BCgetSelectedItems();
+        for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+            adapter.BCremoveData(selectedItemPositions.get(i));
+        }
+        adapter.notifyDataSetChanged();
+
+        actionMode = null;
     }
 }

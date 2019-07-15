@@ -1,9 +1,11 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Sql_dir;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+
+import com.shambu.passwordvault.Data_classes.GSMOWOM_data;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;

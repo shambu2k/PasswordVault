@@ -1,4 +1,4 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Data_classes;
 
 public class BANKINGCAT_data {
     private int bcSqlID;

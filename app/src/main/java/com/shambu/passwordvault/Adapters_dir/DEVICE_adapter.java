@@ -1,4 +1,4 @@
-package com.shambu.passwordvault;
+package com.shambu.passwordvault.Adapters_dir;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.shambu.passwordvault.Data_classes.DEVICE_data;
+import com.shambu.passwordvault.R;
+import com.shambu.passwordvault.Sql_dir.DEVICE_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 

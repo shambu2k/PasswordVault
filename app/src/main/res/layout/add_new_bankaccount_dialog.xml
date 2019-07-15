@@ -98,6 +98,13 @@
                     android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Credit Cards"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="22sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -165,6 +172,13 @@
                     android:inputType="numberPassword" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Debit Cards"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="22sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

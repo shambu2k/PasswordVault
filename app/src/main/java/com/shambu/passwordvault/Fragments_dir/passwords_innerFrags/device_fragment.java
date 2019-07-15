@@ -29,11 +29,11 @@ import android.widget.TextView;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
-import com.shambu.passwordvault.DEVICE_adapter;
-import com.shambu.passwordvault.DEVICE_data;
-import com.shambu.passwordvault.DEVICE_sqlHelper;
+import com.shambu.passwordvault.Adapters_dir.DEVICE_adapter;
+import com.shambu.passwordvault.Data_classes.DEVICE_data;
 import com.shambu.passwordvault.Fragments_dir.passwords_fragment;
 import com.shambu.passwordvault.R;
+import com.shambu.passwordvault.Sql_dir.DEVICE_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 

@@ -22,11 +22,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.shambu.passwordvault.Adapters_dir.GSMOWOM_adapter;
+import com.shambu.passwordvault.Data_classes.GSMOWOM_data;
 import com.shambu.passwordvault.Fragments_dir.passwords_fragment;
-import com.shambu.passwordvault.GSMOWOM_adapter;
-import com.shambu.passwordvault.GSMOWOM_data;
-import com.shambu.passwordvault.GSMOWOM_sqlHelper;
 import com.shambu.passwordvault.R;
+import com.shambu.passwordvault.Sql_dir.GSMOWOM_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
