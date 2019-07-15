@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.shambu.passwordvault.Adapters_dir.GSMOWOM_adapter;
 import com.shambu.passwordvault.Data_classes.GSMOWOM_data;
 import com.shambu.passwordvault.Fragments_dir.passwords_fragment;
+import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.GSMOWOM_sqlHelper;
 
@@ -200,9 +201,9 @@ public class google_fragment extends Fragment implements GSMOWOM_adapter.ClickAd
                         !sample_data.getD_pass().equals("") ||
                         !sample_data.getD_adiInfo().equals("")) {
                     database = new GSMOWOM_sqlHelper(getContext());
-                    SQLiteDatabase dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                    SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
                     database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID(), dbW);
-                    SQLiteDatabase dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                    SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
                     data_list = database.getData(passwords_fragment.which_type, "Google", dbR);
                     Log.d(msg, "type: "+passwords_fragment.which_type+" prov: Google");
                     adapter = new GSMOWOM_adapter(data_list, getContext(), google_fragment.this);
@@ -229,7 +230,7 @@ public class google_fragment extends Fragment implements GSMOWOM_adapter.ClickAd
         recyclerView = view.findViewById(R.id.google_rv);
         fab = view.findViewById(R.id.google_fab);
         database = new GSMOWOM_sqlHelper(getContext());
-        SQLiteDatabase dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+        SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
         data_list = database.getData(passwords_fragment.which_type, "Google", dbR);
         Log.d(msg, "type: "+passwords_fragment.which_type+" prov: Google");
         adapter = new GSMOWOM_adapter(data_list, getContext(), google_fragment.this);
@@ -279,9 +280,9 @@ public class google_fragment extends Fragment implements GSMOWOM_adapter.ClickAd
                                 !sample_data.getD_pass().equals("") ||
                                 !sample_data.getD_adiInfo().equals("")) {
                             database = new GSMOWOM_sqlHelper(getContext());
-                            SQLiteDatabase dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                            SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
                             database.insertData(sample_data, dbW);
-                            SQLiteDatabase dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                            SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
                             data_list = database.getData(passwords_fragment.which_type, "Google", dbR);
                             adapter = new GSMOWOM_adapter(data_list, getContext(), google_fragment.this);
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());

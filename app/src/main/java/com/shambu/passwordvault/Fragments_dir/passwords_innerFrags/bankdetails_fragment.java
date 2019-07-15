@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.shambu.passwordvault.Adapters_dir.BANKINGDETAILS_adapter;
 import com.shambu.passwordvault.Adapters_dir.BANKING_CAT_adapter;
 import com.shambu.passwordvault.Data_classes.BANKING_data;
+import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
 
@@ -101,7 +102,7 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
         ttv.setText(BANKING_CAT_adapter.whichbankname);
         SQLiteDatabase.loadLibs(getContext());
         database = new BANKING_sqlHelper(getContext());
-        data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(getString(R.string.yek_lsq)));
+        data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(MainActivity.lepass));
         adapter = new BANKINGDETAILS_adapter(data_list, getContext(), bankdetails_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -186,10 +187,10 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
                         data.setDebitcardnum(dcnos.toString());
 
                         database = new BANKING_sqlHelper(getContext());
-                        database.insertBankDetails(data, database.getWritableDatabase(getString(R.string.yek_lsq)));
+                        database.insertBankDetails(data, database.getWritableDatabase(MainActivity.lepass));
 
                         database = new BANKING_sqlHelper(getContext());
-                        data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(getString(R.string.yek_lsq)));
+                        data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(MainActivity.lepass));
                         adapter = new BANKINGDETAILS_adapter(data_list, getContext(), bankdetails_fragment.this);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                         recyclerView.setLayoutManager(layoutManager);
@@ -467,9 +468,9 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
                 data.setDebitcardnum(dcnos.toString());
 
                 database = new BANKING_sqlHelper(getContext());
-                database.updateBankDetails(data, data_list.get(selectedItemPositions.get(0)).getbSwlID(), database.getWritableDatabase(getString(R.string.yek_lsq)));
+                database.updateBankDetails(data, data_list.get(selectedItemPositions.get(0)).getbSwlID(), database.getWritableDatabase(MainActivity.lepass));
                 database = new BANKING_sqlHelper(getContext());
-                data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(getString(R.string.yek_lsq)));
+                data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(MainActivity.lepass));
                 adapter = new BANKINGDETAILS_adapter(data_list, getContext(), bankdetails_fragment.this);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(layoutManager);

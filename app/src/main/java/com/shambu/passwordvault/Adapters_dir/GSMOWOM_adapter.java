@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shambu.passwordvault.Data_classes.GSMOWOM_data;
+import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.GSMOWOM_sqlHelper;
 
@@ -176,7 +177,7 @@ public class GSMOWOM_adapter extends RecyclerView.Adapter<GSMOWOM_adapter.GSMOWO
         SQLiteDatabase.loadLibs(mContext);
         Log.d(msg, "removeData method called (GSMOWOM adapter class)");
         database = new GSMOWOM_sqlHelper(mContext);
-        SQLiteDatabase dbW = database.getWritableDatabase(mContext.getString(R.string.yek_lsq));
+        SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
         database.removeRow(adapterList.get(position).getD_ID(), dbW);
         adapterList.remove(position);
         resetCurrentIndex();

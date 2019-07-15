@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.shambu.passwordvault.Adapters_dir.BANKING_CAT_adapter;
 import com.shambu.passwordvault.Data_classes.BANKINGCAT_data;
+import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.BANKING_CAT_sqlHelper;
 import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
@@ -102,7 +103,7 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
         fab = view.findViewById(R.id.bankingcat_fab);
         SQLiteDatabase.loadLibs(getContext());
         database = new BANKING_CAT_sqlHelper(getContext());
-        data_list = database.getAllBnames(database.getReadableDatabase(getString(R.string.yek_lsq)));
+        data_list = database.getAllBnames(database.getReadableDatabase(MainActivity.lepass));
         adapter = new BANKING_CAT_adapter(getContext(), data_list, banking_cat_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -136,10 +137,10 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
                         if(!TextUtils.isEmpty(bname.getText().toString())){
                             database = new BANKING_CAT_sqlHelper(getContext());
                             singleData.setBank_name(bname.getText().toString());
-                            database.insertBankName(singleData, database.getWritableDatabase(getString(R.string.yek_lsq)));
+                            database.insertBankName(singleData, database.getWritableDatabase(MainActivity.lepass));
 
                             database = new BANKING_CAT_sqlHelper(getContext());
-                            data_list = database.getAllBnames(database.getReadableDatabase(getString(R.string.yek_lsq)));
+                            data_list = database.getAllBnames(database.getReadableDatabase(MainActivity.lepass));
                             adapter = new BANKING_CAT_adapter(getContext(), data_list, banking_cat_fragment.this);
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                             recyclerView.setLayoutManager(layoutManager);
@@ -229,13 +230,13 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
                     if(!TextUtils.isEmpty(bname.getText().toString())){
                         database = new BANKING_CAT_sqlHelper(getContext());
                         singleData.setBank_name(bname.getText().toString());
-                        database.updatebankName(singleData, database.getWritableDatabase(getString(R.string.yek_lsq)), data_list.get(selectedItemPositions.get(0)).getBcSqlID());
+                        database.updatebankName(singleData, database.getWritableDatabase(MainActivity.lepass), data_list.get(selectedItemPositions.get(0)).getBcSqlID());
 
                         bankingdetailsdatabase = new BANKING_sqlHelper(getContext());
                         bankingdetailsdatabase.bankNameupdate(bname.getText().toString(), data_list.get(selectedItemPositions.get(0)).getBank_name(), bankingdetailsdatabase.getWritableDatabase(getString(R.string.yek_lsq)));
 
                         database = new BANKING_CAT_sqlHelper(getContext());
-                        data_list = database.getAllBnames(database.getReadableDatabase(getString(R.string.yek_lsq)));
+                        data_list = database.getAllBnames(database.getReadableDatabase(MainActivity.lepass));
                         adapter = new BANKING_CAT_adapter(getContext(), data_list, banking_cat_fragment.this);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                         recyclerView.setLayoutManager(layoutManager);

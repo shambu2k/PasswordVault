@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.shambu.passwordvault.Data_classes.BANKINGCAT_data;
 import com.shambu.passwordvault.Fragments_dir.passwords_innerFrags.bankdetails_fragment;
+import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.BANKING_CAT_sqlHelper;
 import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
@@ -133,8 +134,8 @@ public class BANKING_CAT_adapter extends RecyclerView.Adapter<BANKING_CAT_adapte
         SQLiteDatabase.loadLibs(mContext);
         banking_cat_sqlHelper = new BANKING_CAT_sqlHelper(mContext);
         banking_sqlHelper = new BANKING_sqlHelper(mContext);
-        banking_cat_sqlHelper.removebankRow(name_list.get(position).getBcSqlID(), banking_cat_sqlHelper.getWritableDatabase(mContext.getString(R.string.yek_lsq)),
-                banking_sqlHelper.getWritableDatabase(mContext.getString(R.string.yek_lsq)), name_list.get(position).getBank_name());
+        banking_cat_sqlHelper.removebankRow(name_list.get(position).getBcSqlID(), banking_cat_sqlHelper.getWritableDatabase(MainActivity.lepass),
+                banking_sqlHelper.getWritableDatabase(MainActivity.lepass), name_list.get(position).getBank_name());
         name_list.remove(position);
         resetCurrentIndex();
     }

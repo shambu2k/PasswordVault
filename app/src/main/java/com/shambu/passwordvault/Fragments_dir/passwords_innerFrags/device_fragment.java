@@ -32,6 +32,7 @@ import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.shambu.passwordvault.Adapters_dir.DEVICE_adapter;
 import com.shambu.passwordvault.Data_classes.DEVICE_data;
 import com.shambu.passwordvault.Fragments_dir.passwords_fragment;
+import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.DEVICE_sqlHelper;
 
@@ -159,7 +160,7 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
         recyclerView = view.findViewById(R.id.devices_rv);
         fab = view.findViewById(R.id.devices_fab);
         database = new DEVICE_sqlHelper(getContext());
-        dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+        dbR = database.getReadableDatabase(MainActivity.lepass);
         data_list = database.getallDEVICEdata(dbR);
 
         adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
@@ -222,9 +223,9 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                             if(singleData.getPINorPassorPattern()!=null){
                                 database = new DEVICE_sqlHelper(getContext());
 
-                                dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                                dbW = database.getWritableDatabase(MainActivity.lepass);
                                 database.insertDEVICEdata(singleData, dbW);
-                                dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                                dbR = database.getReadableDatabase(MainActivity.lepass);
                                 data_list = database.getallDEVICEdata(dbR);
 
                                 adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
@@ -240,9 +241,9 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                         else{
                             if(!singleData.getPINorPassorPattern().equals("")){
                                 database = new DEVICE_sqlHelper(getContext());
-                                dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                                dbW = database.getWritableDatabase(MainActivity.lepass);
                                 database.insertDEVICEdata(singleData, dbW);
-                                dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                                dbR = database.getReadableDatabase(MainActivity.lepass);
                                 data_list = database.getallDEVICEdata(dbR);
 
                                 adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
@@ -488,11 +489,11 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                 if(singleData_editDialog.getSecurityType().equals("Pattern")){
                     if(singleData_editDialog.getPINorPassorPattern()!=null){
                         database = new DEVICE_sqlHelper(getContext());
-                        dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                        dbW = database.getWritableDatabase(MainActivity.lepass);
 
                         database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID(), dbW);
 
-                        dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                        dbR = database.getReadableDatabase(MainActivity.lepass);
                         data_list = database.getallDEVICEdata(dbR);
 
                         adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
@@ -508,11 +509,11 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                 else{
                     if(!singleData_editDialog.getPINorPassorPattern().equals("")){
                         database = new DEVICE_sqlHelper(getContext());
-                        dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                        dbW = database.getWritableDatabase(MainActivity.lepass);
 
                         database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID(), dbW);
 
-                        dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                        dbR = database.getReadableDatabase(MainActivity.lepass);
                         data_list = database.getallDEVICEdata(dbR);
 
 

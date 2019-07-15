@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shambu.passwordvault.Data_classes.DEVICE_data;
+import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.DEVICE_sqlHelper;
 
@@ -168,7 +169,7 @@ public class DEVICE_adapter extends RecyclerView.Adapter<DEVICE_adapter.DEVICE_c
         SQLiteDatabase.loadLibs(mContext);
         Log.d(msg, "removeData method called (DEVICE adapter class)");
         database = new DEVICE_sqlHelper(mContext);
-        SQLiteDatabase dbW = database.getWritableDatabase(mContext.getString(R.string.yek_lsq));
+        SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
         database.DEVICEremoveRow(adapter_list.get(position).getSqldeviceID(), dbW);
         adapter_list.remove(position);
         resetCurrentIndex();

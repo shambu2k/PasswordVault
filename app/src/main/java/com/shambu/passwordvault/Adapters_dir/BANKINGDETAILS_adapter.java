@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shambu.passwordvault.Data_classes.BANKING_data;
+import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
 
@@ -188,7 +189,7 @@ public class BANKINGDETAILS_adapter extends RecyclerView.Adapter<BANKINGDETAILS_
     public void BANKINGDetailsremoveData(int position){
         SQLiteDatabase.loadLibs(mContext);
         database = new BANKING_sqlHelper(mContext);
-        database.deleteAccountDetails(adapter_list.get(position).getbSwlID(), database.getWritableDatabase(mContext.getString(R.string.yek_lsq)));
+        database.deleteAccountDetails(adapter_list.get(position).getbSwlID(), database.getWritableDatabase(MainActivity.lepass));
         adapter_list.remove(position);
         resetCurrentIndex();
     }

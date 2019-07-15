@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.shambu.passwordvault.Adapters_dir.GSMOWOM_adapter;
 import com.shambu.passwordvault.Data_classes.GSMOWOM_data;
 import com.shambu.passwordvault.Fragments_dir.passwords_fragment;
+import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.GSMOWOM_sqlHelper;
 
@@ -199,9 +200,9 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
                         !sample_data.getD_pass().equals("") ||
                         !sample_data.getD_adiInfo().equals("")) {
                     database = new GSMOWOM_sqlHelper(getContext());
-                    SQLiteDatabase dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                    SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
                     database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID(), dbW);
-                    SQLiteDatabase dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                    SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
                     data_list = database.getData(passwords_fragment.which_type, "OtherWebsites", dbR);
                     Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherWebsites");
                     adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
@@ -227,7 +228,7 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
         recyclerView = view.findViewById(R.id.otherwebsites_rv);
         fab = view.findViewById(R.id.otherwebsites_fab);
         database = new GSMOWOM_sqlHelper(getContext());
-        SQLiteDatabase dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+        SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
         data_list = database.getData(passwords_fragment.which_type, "OtherWebsites", dbR);
         Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherWebsites");
         adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
@@ -277,9 +278,9 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
                                 !sample_data.getD_pass().equals("") ||
                                 !sample_data.getD_adiInfo().equals("")) {
                             database = new GSMOWOM_sqlHelper(getContext());
-                            SQLiteDatabase dbW = database.getWritableDatabase(getString(R.string.yek_lsq));
+                            SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
                             database.insertData(sample_data, dbW);
-                            SQLiteDatabase dbR = database.getReadableDatabase(getString(R.string.yek_lsq));
+                            SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
                             data_list = database.getData(passwords_fragment.which_type, sample_data.getD_provider(), dbR);
                             adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
