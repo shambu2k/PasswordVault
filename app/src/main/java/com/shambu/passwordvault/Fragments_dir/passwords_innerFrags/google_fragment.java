@@ -2,6 +2,7 @@ package com.shambu.passwordvault.Fragments_dir.passwords_innerFrags;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -84,6 +85,11 @@ public class google_fragment extends Fragment implements GSMOWOM_adapter.ClickAd
                     selectAll();
                     return true;
 
+                case R.id.action_share_all:
+                    shareSelected();
+                    mode.finish();
+                    return true;
+
                 default:
                     return false;
             }
@@ -147,6 +153,24 @@ public class google_fragment extends Fragment implements GSMOWOM_adapter.ClickAd
             adapter.removeData(selectedItemPositions.get(i));
         }
         adapter.notifyDataSetChanged();
+
+        actionMode = null;
+    }
+
+    private void shareSelected(){
+        List<Integer> selectedItemPositions =
+                adapter.getSelectedItems();
+        StringBuilder builder = new StringBuilder();
+        for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+            builder.append(adapter.getShareData(selectedItemPositions.get(i))+"\n");
+        }
+        adapter.notifyDataSetChanged();
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Here are the passwords");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, builder.toString());
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
         actionMode = null;
     }

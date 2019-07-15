@@ -175,6 +175,14 @@ public class DEVICE_adapter extends RecyclerView.Adapter<DEVICE_adapter.DEVICE_c
         resetCurrentIndex();
     }
 
+    public String DEVICEgetShareData(int position){
+        String singleShare;
+        singleShare = adapter_list.get(position).getDevice_Type()+": "+
+                adapter_list.get(position).getDevice_name()+"\n"+
+                adapter_list.get(position).getSecurityType()+": "+adapter_list.get(position).getPINorPassorPattern()+"\n";
+        return singleShare;
+    }
+
     private void resetCurrentIndex() {
         Log.d(msg, "resetCurrentIndex method called (DEVICE adapter class)");
         currentSelectedIndex = -1;

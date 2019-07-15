@@ -23,4 +23,11 @@
         android:title="Select all"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_share_all"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:orderInCategory="4"
+        android:title="Share"
+        app:showAsAction="always" />
+
 </menu>

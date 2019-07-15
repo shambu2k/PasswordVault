@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Associated Mail ID"
-            android:inputType="textEmailAddress" />
+            android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Associated Phone num"
-            android:inputType="phone" />
+            android:inputType="numberSigned" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout

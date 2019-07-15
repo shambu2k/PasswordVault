@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -164,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         if(pref.getString("FIRSTTIME", "YES").equals("YES")){
             database = new password_text_sql(MainActivity.this);
             sql_pass_dialog = new Dialog(this, android.R.style.Theme_Material_Dialog);
+            sql_pass_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             sql_pass_dialog.setContentView(R.layout.sql_pass_dialog);
             final TextView pass = sql_pass_dialog.findViewById(R.id.sqlpass_edt);
             Button sqlSave = sql_pass_dialog.findViewById(R.id.save_sqlpass_button);
@@ -221,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
 
     }
 

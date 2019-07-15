@@ -183,6 +183,17 @@ public class GSMOWOM_adapter extends RecyclerView.Adapter<GSMOWOM_adapter.GSMOWO
         resetCurrentIndex();
     }
 
+    public String getShareData(int position){
+        String singleShare;
+        singleShare = adapterList.get(position).getD_provider()+" Credentials\n"+
+                "Username: "+adapterList.get(position).getD_username()+"\n"+
+                "Password: "+adapterList.get(position).getD_pass()+"\n"+
+                "Associated mail: "+adapterList.get(position).getD_assoEmail()+"\n"+
+                "Associated phone: "+adapterList.get(position).getD_assoPhno()+"\n"+
+                "Notes: "+adapterList.get(position).getD_adiInfo()+"\n";
+        return singleShare;
+    }
+
     private void resetCurrentIndex() {
         Log.d(msg, "resetCurrentIndex method called (GSMOWOM adapter class)");
         currentSelectedIndex = -1;

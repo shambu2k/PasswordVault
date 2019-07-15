@@ -194,6 +194,20 @@ public class BANKINGDETAILS_adapter extends RecyclerView.Adapter<BANKINGDETAILS_
         resetCurrentIndex();
     }
 
+    public String BANKINGDetailsshareData(int position){
+        String singleShare = "Bank: "+adapter_list.get(position).getBankName()+"\n"+
+                "Account Number: "+adapter_list.get(position).getAccountnum()+"\n"+
+                "Associated Mail: "+adapter_list.get(position).getAssoBankmail()+"\n"+
+                "Associated Phno: "+adapter_list.get(position).getAssoBankPhno()+"\n"+
+                "Registered Address: "+adapter_list.get(position).getBankAddress()+"\n"+
+                "NetBanking UserID: "+adapter_list.get(position).getNetBankinguserid()+"\n"+
+                "NetBanking password: "+adapter_list.get(position).getNetBankingpass()+"\n"+
+                "Credit card numbers and pin: "+adapter_list.get(position).getCreditcardnum()+"\n"+
+                "Debit card numbers and pin: "+adapter_list.get(position).getDebitcardnum()+"\n"+
+                "Notes: "+adapter_list.get(position).getAdiNotes()+"\n";
+        return singleShare;
+    }
+
     public interface ClickAdapterListenerBankDetails {
 
         void onRowClicked(int position);
