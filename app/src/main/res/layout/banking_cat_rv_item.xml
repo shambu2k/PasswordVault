@@ -4,7 +4,9 @@
     android:id="@+id/card_item_of_banking_cat_RV"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:clickable="true"
     card_view:cardCornerRadius="5dp"
     card_view:cardUseCompatPadding="true">
 

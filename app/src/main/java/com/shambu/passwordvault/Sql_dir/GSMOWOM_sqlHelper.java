@@ -102,4 +102,9 @@ public class GSMOWOM_sqlHelper extends SQLiteOpenHelper {
         db.close();
         Log.d(msg, "Updated!!");
     }
+
+    public void deleteTABLE(SQLiteDatabase db){
+        db.execSQL("DELETE FROM "+TABLE_NAME);
+        db.close();
+    }
 }

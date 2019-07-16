@@ -89,4 +89,9 @@ public class DEVICE_sqlHelper extends SQLiteOpenHelper {
         Log.d(msg, "Updated!!");
     }
 
+    public void deleteTABLE(SQLiteDatabase db){
+        db.execSQL("DELETE FROM "+TABLE_NAME);
+        db.close();
+    }
+
 }

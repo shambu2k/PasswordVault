@@ -71,4 +71,9 @@ public class BANKING_CAT_sqlHelper extends SQLiteOpenHelper {
         dbdetails.execSQL(sql);
         dbdetails.close();
     }
+
+    public void deleteTABLE(SQLiteDatabase db){
+        db.execSQL("DELETE FROM "+TABLE_NAME);
+        db.close();
+    }
 }

@@ -1,7 +1,6 @@
 package com.shambu.passwordvault.Fragments_dir.passwords_innerFrags;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,6 +30,8 @@ import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapter.ClickAdapterListenerBankingCat {
@@ -42,7 +43,6 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
     private Dialog addNew, editDialog;
     private BANKING_CAT_sqlHelper database;
     private BANKING_sqlHelper bankingdetailsdatabase;
-    private ProgressDialog progressDialog;
     private ActionMode actionMode;
     private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
         @Override
@@ -54,10 +54,11 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
         @Override
         public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
             MenuItem item = menu.getItem(1);
-            if(adapter.BCgetSelectedItemCount() > 1){
+            menu.getItem(4).setVisible(false);
+            menu.getItem(3).setVisible(false);
+            if (adapter.BCgetSelectedItemCount() > 1) {
                 item.setVisible(false);
-            }
-            else {
+            } else {
                 item.setVisible(true);
             }
             return false;
@@ -104,6 +105,12 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
         SQLiteDatabase.loadLibs(getContext());
         database = new BANKING_CAT_sqlHelper(getContext());
         data_list = database.getAllBnames(database.getReadableDatabase(MainActivity.lepass));
+        Collections.sort(data_list, new Comparator<BANKINGCAT_data>() {
+            @Override
+            public int compare(BANKINGCAT_data o1, BANKINGCAT_data o2) {
+                return o1.getBank_name().compareTo(o2.getBank_name());
+            }
+        });
         adapter = new BANKING_CAT_adapter(getContext(), data_list, banking_cat_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -115,13 +122,11 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
                 final BANKINGCAT_data singleData = new BANKINGCAT_data();
                 SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
-                if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
+                if (pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")) {
                     addNew = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
-                }
-                else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
+                } else if (pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")) {
                     addNew = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
-                }
-                else{
+                } else {
                     addNew = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
                 }
                 addNew.setContentView(R.layout.add_new_bankingcat_dialog);
@@ -134,7 +139,7 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
                 bcSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!TextUtils.isEmpty(bname.getText().toString())){
+                        if (!TextUtils.isEmpty(bname.getText().toString())) {
                             database = new BANKING_CAT_sqlHelper(getContext());
                             singleData.setBank_name(bname.getText().toString());
                             database.insertBankName(singleData, database.getWritableDatabase(MainActivity.lepass));
@@ -147,8 +152,7 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
                             recyclerView.setAdapter(adapter);
 
                             addNew.dismiss();
-                        }
-                        else{
+                        } else {
                             addNew.dismiss();
                         }
                     }
@@ -199,10 +203,9 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
 
     private void editSelected() {
         int count = adapter.BCgetSelectedItemCount();
-        if(count==0){
+        if (count == 0) {
             actionMode.finish();
-        }
-        else{
+        } else {
             final BANKINGCAT_data singleData = new BANKINGCAT_data();
             final List<Integer> selectedItemPositions =
                     adapter.BCgetSelectedItems();
@@ -227,7 +230,7 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
             bcSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!TextUtils.isEmpty(bname.getText().toString())){
+                    if (!TextUtils.isEmpty(bname.getText().toString())) {
                         database = new BANKING_CAT_sqlHelper(getContext());
                         singleData.setBank_name(bname.getText().toString());
                         database.updatebankName(singleData, database.getWritableDatabase(MainActivity.lepass), data_list.get(selectedItemPositions.get(0)).getBcSqlID());
@@ -243,8 +246,7 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
                         recyclerView.setAdapter(adapter);
 
                         editDialog.dismiss();
-                    }
-                    else{
+                    } else {
                         editDialog.dismiss();
                     }
                 }
@@ -252,7 +254,7 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
         }
     }
 
-    private void deleteRows(){
+    private void deleteRows() {
         List<Integer> selectedItemPositions =
                 adapter.BCgetSelectedItems();
         for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {

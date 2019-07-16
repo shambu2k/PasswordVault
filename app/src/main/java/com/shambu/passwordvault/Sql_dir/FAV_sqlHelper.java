@@ -109,4 +109,9 @@ public class FAV_sqlHelper extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, COL_id+" = "+rowID, null);
         db.close();
     }
+
+    public void deleteTABLE(SQLiteDatabase db){
+        db.execSQL("DELETE FROM "+TABLE_NAME);
+        db.close();
+    }
 }

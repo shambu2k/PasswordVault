@@ -270,8 +270,7 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
         recyclerView = view.findViewById(R.id.otherwebsites_rv);
         fab = view.findViewById(R.id.otherwebsites_fab);
         database = new GSMOWOM_sqlHelper(getContext());
-        SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
-        data_list = database.getData(passwords_fragment.which_type, "OtherWebsites", dbR);
+        data_list = database.getData(passwords_fragment.which_type, "OtherWebsites", database.getReadableDatabase(MainActivity.lepass));
         Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherWebsites");
         adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());

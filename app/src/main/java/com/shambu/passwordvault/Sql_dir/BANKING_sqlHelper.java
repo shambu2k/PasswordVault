@@ -124,4 +124,9 @@ public class BANKING_sqlHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteTABLE(SQLiteDatabase db){
+        db.execSQL("DELETE FROM "+TABLE_NAME);
+        db.close();
+    }
+
 }

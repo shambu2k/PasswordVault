@@ -38,6 +38,7 @@ import java.util.List;
 
 public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickAdapterListener {
 
+    private TextView ttv;
     private RecyclerView recyclerView;
     private GSMOWOM_adapter adapter;
     private FloatingActionButton fab;
@@ -279,9 +280,10 @@ public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickA
         SQLiteDatabase.loadLibs(getContext());
         recyclerView = view.findViewById(R.id.gsmowom_rv);
         fab = view.findViewById(R.id.gsmowom_fab);
+        ttv = view.findViewById(R.id.socialmtoolbar_tv);
+        ttv.setText(social_media_fragment.whichprovider);
         database = new GSMOWOM_sqlHelper(getContext());
-        SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
-        data_list = database.getData(passwords_fragment.which_type, social_media_fragment.whichprovider, dbR);
+        data_list = database.getData(passwords_fragment.which_type, social_media_fragment.whichprovider, database.getReadableDatabase(MainActivity.lepass));
         Log.d(msg, "type: "+passwords_fragment.which_type+" prov: "+social_media_fragment.whichprovider);
         adapter = new GSMOWOM_adapter(data_list, getContext(), GSMOWOM_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
