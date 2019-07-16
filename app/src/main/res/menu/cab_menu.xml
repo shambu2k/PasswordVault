@@ -30,4 +30,12 @@
         android:title="Share"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_fav_all"
+        android:icon="@drawable/ic_favorite_border_black_24dp"
+        android:orderInCategory="4"
+        android:title="Fav"
+        app:showAsAction="always" />
+
+
 </menu>

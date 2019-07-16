@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shambu.passwordvault.Adapters_dir.BANKINGDETAILS_adapter;
 import com.shambu.passwordvault.Adapters_dir.BANKING_CAT_adapter;
@@ -28,6 +29,7 @@ import com.shambu.passwordvault.Data_classes.BANKING_data;
 import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
+import com.shambu.passwordvault.Sql_dir.FAV_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -83,6 +85,10 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
 
                 case R.id.action_select_all:
                     selectAll();
+                    return true;
+
+                case R.id.action_fav_all:
+                    favAll();
                     return true;
 
                 default:
@@ -502,5 +508,17 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
         adapter.notifyDataSetChanged();
 
         actionMode = null;
+    }
+
+    private void favAll() {
+        List<Integer> selectedItemPositions =
+                adapter.BANKINGDetailsgetSelectedItems();
+
+        for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+            FAV_sqlHelper favDatabase = new FAV_sqlHelper(getContext());
+            favDatabase.insertFAVBANKDETAILSData(data_list.get(selectedItemPositions.get(i)), favDatabase.getWritableDatabase(MainActivity.lepass));
+        }
+        actionMode = null;
+        Toast.makeText(getContext(), "Added to favourites", Toast.LENGTH_SHORT).show();
     }
 }

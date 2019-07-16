@@ -22,12 +22,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shambu.passwordvault.Adapters_dir.GSMOWOM_adapter;
 import com.shambu.passwordvault.Data_classes.GSMOWOM_data;
 import com.shambu.passwordvault.Fragments_dir.passwords_fragment;
 import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
+import com.shambu.passwordvault.Sql_dir.FAV_sqlHelper;
 import com.shambu.passwordvault.Sql_dir.GSMOWOM_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -88,6 +90,10 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
 
                 case R.id.action_select_all:
                     selectAll();
+                    return true;
+
+                case R.id.action_fav_all:
+                    favAll();
                     return true;
 
                 default:
@@ -173,6 +179,18 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
         actionMode = null;
+    }
+
+    private void favAll() {
+        List<Integer> selectedItemPositions =
+                adapter.getSelectedItems();
+
+        for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+            FAV_sqlHelper favDatabase = new FAV_sqlHelper(getContext());
+            favDatabase.insertFAVGSMOWOMData(data_list.get(selectedItemPositions.get(i)), favDatabase.getWritableDatabase(MainActivity.lepass));
+        }
+        actionMode = null;
+        Toast.makeText(getContext(), "Added to favourites", Toast.LENGTH_SHORT).show();
     }
 
     private void editSelected(){

@@ -32,22 +32,18 @@ public class settings_fragment extends Fragment {
 
         if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
             drkmode.setChecked(true);
-            drkmode.setText("Disable Dark Mode");
 
         }
         else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
             drkmode.setChecked(false);
-            drkmode.setText("Enable Dark Mode");
         }
         else{
             drkmode.setChecked(false);
-            drkmode.setText("Enable Dark Mode");
         }
         drkmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(drkmode.isChecked()){
-                    drkmode.setText("Disable Dark Mode");
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
@@ -59,7 +55,6 @@ public class settings_fragment extends Fragment {
                     startActivity(intent);
                 }
                 else{
-                    drkmode.setText("Enable Dark Mode");
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();

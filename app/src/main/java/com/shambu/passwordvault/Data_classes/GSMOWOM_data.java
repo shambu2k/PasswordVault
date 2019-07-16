@@ -10,6 +10,10 @@ public class GSMOWOM_data {
     private String D_pass;
     private String D_adiInfo;
 
+    public GSMOWOM_data(){
+
+    }
+
     public GSMOWOM_data(int d_ID, String d_type, String d_provider, String d_assoEmail, String d_assoPhno,
                         String d_username, String d_pass, String d_adiInfo) {
         this.d_ID = d_ID;

@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
@@ -36,6 +37,7 @@ import com.shambu.passwordvault.Fragments_dir.passwords_fragment;
 import com.shambu.passwordvault.MainActivity;
 import com.shambu.passwordvault.R;
 import com.shambu.passwordvault.Sql_dir.DEVICE_sqlHelper;
+import com.shambu.passwordvault.Sql_dir.FAV_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -143,6 +145,11 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
 
                 case R.id.action_share_all:
                     shareSelected();
+                    mode.finish();
+                    return true;
+
+                case R.id.action_fav_all:
+                    favAll();
                     mode.finish();
                     return true;
 
@@ -431,6 +438,19 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
 
         actionMode = null;
     }
+
+    private void favAll() {
+        List<Integer> selectedItemPositions =
+                adapter.DEVICEgetSelectedItems();
+
+        for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+            FAV_sqlHelper favDatabase = new FAV_sqlHelper(getContext());
+            favDatabase.insertFAVDEVICEData(data_list.get(selectedItemPositions.get(i)), favDatabase.getWritableDatabase(MainActivity.lepass));
+        }
+        actionMode = null;
+        Toast.makeText(getContext(), "Added to favourites", Toast.LENGTH_SHORT).show();
+    }
+
     private void editSelected(){
         singleData_editDialog = new DEVICE_data();
         final List<Integer> selectedItemPositions =

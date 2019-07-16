@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -79,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.favourites_frag_menu:
                         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                                 .replace(R.id.fragment_container, new favourites_fragment(), "FAV_FRAG").commit();
-                        Snackbar.make(fragcont, "Coming soon!", Snackbar.LENGTH_SHORT).show();
                         break;
                     case R.id.settings_frag_menu:
                         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out)

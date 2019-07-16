@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="This is the password used to encrypt/decrypt all your other passwords which will be stored in this app.\n\n
 Choose a strong password. This master password will be used in the
-future for encryption/decryption.\n\n"
+future for encryption/decryption.\n"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="16sp"/>
             <TextView
@@ -46,7 +46,7 @@ future for encryption/decryption.\n\n"
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/mat_sqlpass"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"

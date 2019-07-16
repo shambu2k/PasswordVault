@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_favdelete"
+        android:icon="@drawable/ic_delete_black_24dp"
+        android:orderInCategory="1"
+        android:title="Delete from favourites"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_favshare_all"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:orderInCategory="2"
+        android:title="Share"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_favselect_all"
+        android:icon="@drawable/ic_select_all_black_24dp"
+        android:orderInCategory="3"
+        android:title="Select all"
+        app:showAsAction="always" />
+
+</menu>
