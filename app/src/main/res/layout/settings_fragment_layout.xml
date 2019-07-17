@@ -41,34 +41,41 @@
         android:foreground="?android:attr/selectableItemBackground">
 
         <LinearLayout
-            android:padding="2dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dark mode toggle"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="20sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Switch between dark mode and day mode"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:orientation="vertical">
-            <Switch
-                android:id="@+id/darkmode_switch"
+            android:padding="5dp">
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dark mode toggle"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Switch between dark mode and day mode"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+                <Switch
+                    android:id="@+id/darkmode_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
         </LinearLayout>
+
+
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
@@ -82,7 +89,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -114,7 +121,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="2dp">
+            android:padding="5dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -141,6 +148,38 @@
                 style="@style/Widget.AppCompat.Spinner.DropDown"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/reportissue_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Report Issue"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Send an issue to the developer through email"/>
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

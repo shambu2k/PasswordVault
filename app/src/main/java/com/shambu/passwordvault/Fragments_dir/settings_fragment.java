@@ -32,7 +32,7 @@ import com.shambu.passwordvault.Sql_dir.GSMOWOM_sqlHelper;
 public class settings_fragment extends Fragment {
 
     private Switch drkmode;
-    private CardView deleteCard;
+    private CardView deleteCard, reportCard;
     private AlertDialog.Builder deleteAlert;
     private Spinner sortSpinner;
     private BANKING_sqlHelper banking_sqlHelper;
@@ -55,6 +55,7 @@ public class settings_fragment extends Fragment {
         fav_sqlHelper = new FAV_sqlHelper(getContext());
         gsmowom_sqlHelper = new GSMOWOM_sqlHelper(getContext());
         drkmode = view.findViewById(R.id.darkmode_switch);
+        reportCard = view.findViewById(R.id.reportissue_card);
         deleteCard = view.findViewById(R.id.deleteall_card);
         deleteAlert = new AlertDialog.Builder(getContext());
         sortSpinner = view.findViewById(R.id.sort_spinner);
@@ -115,6 +116,19 @@ public class settings_fragment extends Fragment {
                 }).show();
             }
         });
+
+        reportCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] receiver = {"sidharthshambu00@gmail.com"};
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, receiver);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Password Vault - Issue");
+                emailIntent.setType("message/rfc822");
+                startActivity(Intent.createChooser(emailIntent, "Choose email client"));
+            }
+        });
+
         return view;
     }
 
