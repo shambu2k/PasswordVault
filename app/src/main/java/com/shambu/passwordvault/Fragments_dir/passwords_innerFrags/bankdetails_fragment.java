@@ -34,10 +34,13 @@ import com.shambu.passwordvault.Sql_dir.FAV_sqlHelper;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_adapter.ClickAdapterListenerBankDetails {
 
+    private SharedPreferences pref;
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private BANKINGDETAILS_adapter adapter;
@@ -110,10 +113,39 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
 
     private void initList() {
         data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(MainActivity.lepass));
+        sorter();
         adapter = new BANKINGDETAILS_adapter(data_list, getContext(), bankdetails_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void sorter(){
+
+        if(pref.getString("SORT", "Alphabetically / Ascending").equals("Alphabetically / Ascending")){
+            Collections.sort(data_list, new Comparator<BANKING_data>() {
+                @Override
+                public int compare(BANKING_data o1, BANKING_data o2) {
+                    return Double.compare(Double.parseDouble(o1.getAccountnum()), Double.parseDouble(o2.getAccountnum()));
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Zalphabetically / Descending")){
+            Collections.sort(data_list, new Comparator<BANKING_data>() {
+                @Override
+                public int compare(BANKING_data o1, BANKING_data o2) {
+                    return Double.compare(Double.parseDouble(o2.getAccountnum()), Double.parseDouble(o1.getAccountnum()));
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Newest first")){
+            Collections.reverse(data_list);
+        }
+        else {
+
+        }
+
+
     }
 
 
@@ -121,6 +153,7 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bankdetails_frag_layout, container, false);
+        pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         recyclerView = view.findViewById(R.id.bankdetails_rv);
         fab = view.findViewById(R.id.bankdetails_fab);
         ttv = view.findViewById(R.id.toolbar_bankdetails_tv);
@@ -133,7 +166,7 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+
 
                 if (pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")) {
                     addNew = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
@@ -286,7 +319,6 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
         BANKING_data singleData = new BANKING_data();
         final List<Integer> selectedItemPositions =
                 adapter.BANKINGDetailsgetSelectedItems();
-        SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
         if (pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")) {
             editDialog = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);

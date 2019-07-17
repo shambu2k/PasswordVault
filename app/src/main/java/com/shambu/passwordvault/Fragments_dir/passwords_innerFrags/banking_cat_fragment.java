@@ -30,12 +30,15 @@ import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapter.ClickAdapterListenerBankingCat {
 
     private RecyclerView recyclerView;
     private BANKING_CAT_adapter adapter;
+    private SharedPreferences pref;
     private FloatingActionButton fab;
     private List<BANKINGCAT_data> data_list;
     private Dialog addNew, editDialog;
@@ -100,22 +103,43 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
 
     private void initList(){
         data_list = database.getAllBnames(database.getReadableDatabase(MainActivity.lepass));
-  /*      Collections.sort(data_list, new Comparator<BANKINGCAT_data>() {
-            @Override
-            public int compare(BANKINGCAT_data o1, BANKINGCAT_data o2) {
-                return o1.getBank_name().compareTo(o2.getBank_name());
-            }
-        });  */
+        sorter();
         adapter = new BANKING_CAT_adapter(getContext(), data_list, banking_cat_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
+    private void sorter(){
+        if(pref.getString("SORT", "Alphabetically / Ascending").equals("Alphabetically / Ascending")){
+            Collections.sort(data_list, new Comparator<BANKINGCAT_data>() {
+                @Override
+                public int compare(BANKINGCAT_data o1, BANKINGCAT_data o2) {
+                    return o1.getBank_name().compareTo(o2.getBank_name());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Zalphabetically / Descending")){
+            Collections.sort(data_list, new Comparator<BANKINGCAT_data>() {
+                @Override
+                public int compare(BANKINGCAT_data o1, BANKINGCAT_data o2) {
+                    return o2.getBank_name().compareTo(o1.getBank_name());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Newest first")){
+            Collections.reverse(data_list);
+        }
+        else {
+
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bankingcat_frag_layout, container, false);
+        pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         recyclerView = view.findViewById(R.id.banking_categories_rv);
         fab = view.findViewById(R.id.bankingcat_fab);
         SQLiteDatabase.loadLibs(getContext());
@@ -127,7 +151,7 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
             @Override
             public void onClick(View v) {
                 final BANKINGCAT_data singleData = new BANKINGCAT_data();
-                SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+
 
                 if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
                     addNew = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
@@ -214,7 +238,6 @@ public class banking_cat_fragment extends Fragment implements BANKING_CAT_adapte
             final BANKINGCAT_data singleData = new BANKINGCAT_data();
             final List<Integer> selectedItemPositions =
                     adapter.BCgetSelectedItems();
-            SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
             if (pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")) {
                 editDialog = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);

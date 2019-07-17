@@ -34,10 +34,13 @@ import com.shambu.passwordvault.Sql_dir.GSMOWOM_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickAdapterListener {
 
+    private SharedPreferences pref;
     private TextView ttv;
     private RecyclerView recyclerView;
     private GSMOWOM_adapter adapter;
@@ -199,7 +202,6 @@ public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickA
     private void editSelected(){
         final List<Integer> selectedItemPositions =
                 adapter.getSelectedItems();
-        SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
         if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
             editDialog = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
@@ -270,10 +272,36 @@ public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickA
 
     private void initList(){
         data_list = database.getData(passwords_fragment.which_type, social_media_fragment.whichprovider, database.getReadableDatabase(MainActivity.lepass));
+        sorter();
         adapter = new GSMOWOM_adapter(data_list, getContext(), GSMOWOM_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void sorter(){
+        if(pref.getString("SORT", "Alphabetically / Ascending").equals("Alphabetically / Ascending")){
+            Collections.sort(data_list, new Comparator<GSMOWOM_data>() {
+                @Override
+                public int compare(GSMOWOM_data o1, GSMOWOM_data o2) {
+                    return o1.getD_assoEmail().compareTo(o2.getD_assoEmail());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Zalphabetically / Descending")){
+            Collections.sort(data_list, new Comparator<GSMOWOM_data>() {
+                @Override
+                public int compare(GSMOWOM_data o1, GSMOWOM_data o2) {
+                    return o2.getD_assoEmail().compareTo(o1.getD_assoEmail());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Newest first")){
+            Collections.reverse(data_list);
+        }
+        else {
+
+        }
     }
 
     @Nullable
@@ -281,6 +309,7 @@ public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickA
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gsmowom_frag_layout, container, false);
         SQLiteDatabase.loadLibs(getContext());
+        pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         recyclerView = view.findViewById(R.id.gsmowom_rv);
         fab = view.findViewById(R.id.gsmowom_fab);
         ttv = view.findViewById(R.id.socialmtoolbar_tv);
@@ -291,7 +320,6 @@ public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickA
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
                 if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
                     addNew = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);

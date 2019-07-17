@@ -37,5 +37,4 @@
         android:title="Fav"
         app:showAsAction="always" />
 
-
 </menu>

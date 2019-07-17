@@ -14,7 +14,10 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -31,11 +34,15 @@ public class settings_fragment extends Fragment {
     private Switch drkmode;
     private CardView deleteCard;
     private AlertDialog.Builder deleteAlert;
+    private Spinner sortSpinner;
     private BANKING_sqlHelper banking_sqlHelper;
     private BANKING_CAT_sqlHelper banking_cat_sqlHelper;
     private DEVICE_sqlHelper device_sqlHelper;
     private FAV_sqlHelper fav_sqlHelper;
     private GSMOWOM_sqlHelper gsmowom_sqlHelper;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private ArrayAdapter<CharSequence> sort_spin_adapter;
 
 
     @Nullable
@@ -50,29 +57,25 @@ public class settings_fragment extends Fragment {
         drkmode = view.findViewById(R.id.darkmode_switch);
         deleteCard = view.findViewById(R.id.deleteall_card);
         deleteAlert = new AlertDialog.Builder(getContext());
+        sortSpinner = view.findViewById(R.id.sort_spinner);
+        sortSpinner.setOnItemSelectedListener(new sort_spinner_class());
+        sort_spin_adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.SORT_TYPE, android.R.layout.simple_spinner_item);
+        sort_spin_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(sort_spin_adapter);
+        pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        editor = pref.edit();
+
+        settingsSavedPref();
 
 
-        SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-
-        if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
-            drkmode.setChecked(true);
-
-        }
-        else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
-            drkmode.setChecked(false);
-        }
-        else{
-            drkmode.setChecked(false);
-        }
         drkmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(drkmode.isChecked()){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
                     editor.putString("DARKMODE_TOGGLE", "YES");
-                    editor.commit();
+                    editor.apply();
                     getActivity().finish();
                     Intent intent = new Intent(getContext(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -80,10 +83,8 @@ public class settings_fragment extends Fragment {
                 }
                 else{
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
                     editor.putString("DARKMODE_TOGGLE", "NO");
-                    editor.commit();
+                    editor.apply();
                     getActivity().finish();
                     Intent intent = new Intent(getContext(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -116,5 +117,46 @@ public class settings_fragment extends Fragment {
         });
         return view;
     }
+
+    private void settingsSavedPref(){
+        if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
+            drkmode.setChecked(true);
+
+        }
+        else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
+            drkmode.setChecked(false);
+        }
+        else{
+            drkmode.setChecked(false);
+        }
+
+        if(pref.getString("SORT", "Alphabetically / Ascending").equals("Alphabetically / Ascending")){
+            sortSpinner.setSelection(sort_spin_adapter.getPosition("Alphabetically / Ascending"));
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Zalphabetically / Descending")){
+            sortSpinner.setSelection(sort_spin_adapter.getPosition("Zalphabetically / Descending"));
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Newest first")){
+            sortSpinner.setSelection(sort_spin_adapter.getPosition("Newest first"));
+        }
+        else {
+            sortSpinner.setSelection(sort_spin_adapter.getPosition("Oldest first"));
+        }
+    }
+
+    private class sort_spinner_class implements AdapterView.OnItemSelectedListener{
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            editor.putString("SORT", parent.getItemAtPosition(position).toString());
+            editor.apply();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
 
 }

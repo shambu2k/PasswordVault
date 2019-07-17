@@ -26,9 +26,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="This is the password used to encrypt/decrypt all your other passwords which will be stored in this app.\n\n
-Choose a strong password. This master password will be used in the
+                android:text="This is the master password used to encrypt/decrypt all your other passwords which will be stored in this app.\nChoose a strong password. This master password will be used in the
 future for encryption/decryption.\n"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Password must contain atleast one number, uppercase, lowercase, special character and should be atleast 8 characters long."
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="16sp"/>
             <TextView

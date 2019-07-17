@@ -32,6 +32,9 @@ import com.shambu.passwordvault.Sql_dir.password_text_sql;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int SECURITY_SETTING_REQUEST_CODE = 233;
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNav;
     RelativeLayout rr;
     private Dialog sql_pass_dialog;
+    private Pattern patternspc = Pattern.compile("[a-zA-Z0-9]*");
+    private Matcher matchspc;
 
     AlertDialog.Builder noLockAlert;
     KeyguardManager mKeyguardManager;
@@ -156,10 +161,57 @@ public class MainActivity extends AppCompatActivity {
         }).setCancelable(false).show();
     }
 
+    private static boolean checkString(String str) {
+        char ch;
+        boolean capitalFlag = false;
+        boolean lowerCaseFlag = false;
+        boolean numberFlag = false;
+        for(int i=0;i < str.length();i++) {
+            ch = str.charAt(i);
+            if( Character.isDigit(ch)) {
+                numberFlag = true;
+            }
+            else if (Character.isUpperCase(ch)) {
+                capitalFlag = true;
+            } else if (Character.isLowerCase(ch)) {
+                lowerCaseFlag = true;
+            }
+            if(numberFlag && capitalFlag && lowerCaseFlag)
+                return true;
+        }
+        return false;
+    }
+
+    private void passwordStrengthCheck(String password) {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        matchspc = patternspc.matcher(password);
+        if(password.length() < 8){
+            Toast.makeText(MainActivity.this, "Password should be minimum 8 characters long", Toast.LENGTH_SHORT).show();
+        }
+        else if(!checkString(password)){
+            Toast.makeText(MainActivity.this, "Password should contain atleast one number, lowercase, uppercase and a special character", Toast.LENGTH_LONG).show();
+        }
+        else if(matchspc.matches()){
+            Toast.makeText(MainActivity.this, "Password should contain atleast one special character", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            try {
+                database.tester(database.getWritableDatabase(password));
+                rr.setVisibility(View.VISIBLE);
+                lepass = password;
+                sql_pass_dialog.dismiss();
+            } catch (Exception e) {
+                Toast.makeText(MainActivity.this, "Password seems incorrect", Toast.LENGTH_SHORT).show();
+            }
+            editor.putString("FIRSTTIME", "NO");
+            editor.commit();
+        }
+    }
+
     private void sql_pass_dialogCheck() {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = pref.edit();
         if(pref.getString("FIRSTTIME", "YES").equals("YES")){
             database = new password_text_sql(MainActivity.this);
             sql_pass_dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
@@ -175,16 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (!TextUtils.isEmpty(pass.getText().toString())) {
-                        try {
-                            database.tester(database.getWritableDatabase(pass.getText().toString()));
-                            rr.setVisibility(View.VISIBLE);
-                            lepass = pass.getText().toString();
-                            sql_pass_dialog.dismiss();
-                        } catch (Exception e) {
-                            Toast.makeText(MainActivity.this, "Password seems incorrect", Toast.LENGTH_SHORT).show();
-                        }
-                        editor.putString("FIRSTTIME", "NO");
-                        editor.commit();
+                        passwordStrengthCheck(pass.getText().toString());
                     } else {
                         Toast.makeText(MainActivity.this, "Enter the password", Toast.LENGTH_SHORT).show();
                     }

@@ -34,10 +34,13 @@ import com.shambu.passwordvault.Sql_dir.GSMOWOM_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.ClickAdapterListener {
 
+    private SharedPreferences pref;
     private RecyclerView recyclerView;
     private GSMOWOM_adapter adapter;
     private FloatingActionButton fab;
@@ -90,11 +93,11 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
 
                 case R.id.action_select_all:
                     selectAll();
-                    mode.finish();
                     return true;
 
                 case R.id.action_fav_all:
                     favAll();
+                    mode.finish();
                     return true;
 
                 default:
@@ -197,7 +200,6 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
     private void editSelected(){
         final List<Integer> selectedItemPositions =
                 adapter.getSelectedItems();
-        SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
         if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
             editDialog = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
@@ -257,10 +259,36 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
 
     private void initList(){
         data_list = database.getData(passwords_fragment.which_type, "OtherWebsites", database.getReadableDatabase(MainActivity.lepass));
+        sorter();
         adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void sorter(){
+        if(pref.getString("SORT", "Alphabetically / Ascending").equals("Alphabetically / Ascending")){
+            Collections.sort(data_list, new Comparator<GSMOWOM_data>() {
+                @Override
+                public int compare(GSMOWOM_data o1, GSMOWOM_data o2) {
+                    return o1.getD_provider().compareTo(o2.getD_provider());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Zalphabetically / Descending")){
+            Collections.sort(data_list, new Comparator<GSMOWOM_data>() {
+                @Override
+                public int compare(GSMOWOM_data o1, GSMOWOM_data o2) {
+                    return o2.getD_provider().compareTo(o1.getD_provider());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Newest first")){
+            Collections.reverse(data_list);
+        }
+        else {
+
+        }
     }
 
     private void initDB(){
@@ -271,6 +299,7 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.otherwebsites_frag_layout, container, false);
+        pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         SQLiteDatabase.loadLibs(getContext());
         recyclerView = view.findViewById(R.id.otherwebsites_rv);
         fab = view.findViewById(R.id.otherwebsites_fab);
@@ -280,7 +309,6 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
                 if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
                     addNew = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);

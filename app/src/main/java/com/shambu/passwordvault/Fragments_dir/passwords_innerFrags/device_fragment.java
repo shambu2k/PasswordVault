@@ -41,10 +41,13 @@ import com.shambu.passwordvault.Sql_dir.FAV_sqlHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class device_fragment extends Fragment implements DEVICE_adapter.ClickAdapterListenerDevice {
 
+    private SharedPreferences pref;
     private RecyclerView recyclerView;
     private DEVICE_adapter adapter;
     private FloatingActionButton fab;
@@ -170,16 +173,43 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
 
     private void initList(){
         data_list = database.getallDEVICEdata(database.getReadableDatabase(MainActivity.lepass));
+        sorter();
         adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
+    private void sorter(){
+        if(pref.getString("SORT", "Alphabetically / Ascending").equals("Alphabetically / Ascending")){
+            Collections.sort(data_list, new Comparator<DEVICE_data>() {
+                @Override
+                public int compare(DEVICE_data o1, DEVICE_data o2) {
+                    return o1.getDevice_name().compareTo(o2.getDevice_name());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Zalphabetically / Descending")){
+            Collections.sort(data_list, new Comparator<DEVICE_data>() {
+                @Override
+                public int compare(DEVICE_data o1, DEVICE_data o2) {
+                    return o2.getDevice_name().compareTo(o1.getDevice_name());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Newest first")){
+            Collections.reverse(data_list);
+        }
+        else {
+
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.device_frag_layout, container, false);
+        pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         SQLiteDatabase.loadLibs(getContext());
         recyclerView = view.findViewById(R.id.devices_rv);
         fab = view.findViewById(R.id.devices_fab);
@@ -192,7 +222,6 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
             public void onClick(View v) {
                 singleData = new DEVICE_data();
                 singleData.setData_type(passwords_fragment.which_type);
-                SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
                 if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
                     addNew = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
@@ -444,7 +473,6 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
         singleData_editDialog = new DEVICE_data();
         final List<Integer> selectedItemPositions =
                 adapter.DEVICEgetSelectedItems();
-        SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
         if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
             editDialog = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);

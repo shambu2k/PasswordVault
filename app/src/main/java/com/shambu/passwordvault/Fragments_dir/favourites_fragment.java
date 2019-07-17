@@ -28,12 +28,11 @@ import java.util.List;
 
 public class favourites_fragment extends Fragment implements FAV_adapter.ClickAdapterListenerFav {
 
+   // private SharedPreferences pref;
     RecyclerView recyclerView;
     FAV_adapter adapter;
     List<FAV_data> data_list;
     FAV_sqlHelper database;
-    private SQLiteDatabase dbR, dbW;
-    private String msg = favourites_fragment.class.getSimpleName();
     private ActionMode actionMode;
     private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
         @Override
@@ -77,24 +76,54 @@ public class favourites_fragment extends Fragment implements FAV_adapter.ClickAd
         }
     };
 
-    private void initDBandList(){
+    private void initDB(){
         database = new FAV_sqlHelper(getContext());
-        dbR = database.getReadableDatabase(MainActivity.lepass);
-        dbW = database.getWritableDatabase(MainActivity.lepass);
-        data_list = database.getALLfavData(dbR);
+    }
+
+    private void initList(){
+        data_list = database.getALLfavData(database.getReadableDatabase(MainActivity.lepass));
+      //  sorter();
         adapter = new FAV_adapter(data_list, getContext(), favourites_fragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
+  /*  private void sorter(){
+        if(pref.getString("SORT", "Alphabetically / Ascending").equals("Alphabetically / Ascending")){
+            Collections.sort(data_list, new Comparator<FAV_data>() {
+                @Override
+                public int compare(FAV_data o1, FAV_data o2) {
+
+                    return o1.getD_provider().compareTo(o2.getD_provider());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Zalphabetically / Descending")){
+            Collections.sort(data_list, new Comparator<FAV_data>() {
+                @Override
+                public int compare(FAV_data o1, FAV_data o2) {
+                    return o2.getD_provider().compareTo(o1.getD_provider());
+                }
+            });
+        }
+        else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Newest first")){
+            Collections.reverse(data_list);
+        }
+        else {
+
+        }
+    } */
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favourites_fragment_layout, container, false);
+    //    pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         recyclerView = view.findViewById(R.id.favourites_rv);
         SQLiteDatabase.loadLibs(getContext());
-        initDBandList();
+        initDB();
+        initList();
 
         return view;
     }
@@ -163,13 +192,21 @@ public class favourites_fragment extends Fragment implements FAV_adapter.ClickAd
     private void deleteFav(){
         List<Integer> selectedItemPositions =
                 adapter.FAVgetSelectedItems();
-        for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-            adapter.FAVremoveData(selectedItemPositions.get(i));
+        if(selectedItemPositions.size() == data_list.size()){
+            database.deleteTABLE(database.getWritableDatabase(MainActivity.lepass));
+            initList();
+            Toast.makeText(getContext(), "Removed from favourites", Toast.LENGTH_SHORT).show();
         }
-        adapter.notifyDataSetChanged();
+        else{
+            for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+                adapter.FAVremoveData(selectedItemPositions.get(i));
+            }
+            adapter.notifyDataSetChanged();
 
-        actionMode = null;
-        Toast.makeText(getContext(), "Removed from favourites", Toast.LENGTH_SHORT).show();
+            actionMode = null;
+            Toast.makeText(getContext(), "Removed from favourites", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 }

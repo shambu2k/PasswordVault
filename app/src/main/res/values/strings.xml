@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Password Vault</string>
-    <string name="yek_lsq">srh2sh8dhdf4h8df4h8rr45g1h8errh418448ty3148y3r283b184344384y145g18344t82#%#^#$Y</string>
     <string-array name="DEVICE_TYPE">
         <item>Android phone</item>
         <item>Android tablet</item>
@@ -20,6 +19,13 @@
         <item>PIN</item>
         <item>Password</item>
         <item>Pattern</item>
+    </string-array>
+
+    <string-array name="SORT_TYPE">
+        <item>Alphabetically / Ascending</item>
+        <item>Zalphabetically / Descending</item>
+        <item>Newest first</item>
+        <item>Oldest first</item>
     </string-array>
 
 
