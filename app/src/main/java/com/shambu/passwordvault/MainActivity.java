@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = pref.edit();
         if(pref.getString("FIRSTTIME", "YES").equals("YES")){
             database = new password_text_sql(MainActivity.this);
-            sql_pass_dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
+            sql_pass_dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
             sql_pass_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             sql_pass_dialog.setContentView(R.layout.sql_pass_dialog);
             final TextView pass = sql_pass_dialog.findViewById(R.id.sqlpass_edt);
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             database = new password_text_sql(MainActivity.this);
-            sql_pass_dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
+            sql_pass_dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
             sql_pass_dialog.setContentView(R.layout.sql_pass_dialog);
             LinearLayout info = sql_pass_dialog.findViewById(R.id.pass_info);
             info.setVisibility(View.GONE);

@@ -35,12 +35,20 @@ public class FAV_adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private SparseBooleanArray selectedItems;
     private Context mContext;
     private FAV_sqlHelper database;
+    private boolean flag =true;
 
     public FAV_adapter(List<FAV_data> adapter_list, Context mContext, ClickAdapterListenerFav listener) {
         this.adapter_list = adapter_list;
         this.mContext = mContext;
         this.listener = listener;
         selectedItems = new SparseBooleanArray();
+    }
+
+    private void databaseInit(){
+        if(flag) {
+            SQLiteDatabase.loadLibs(mContext);
+            database = new FAV_sqlHelper(mContext);
+        }
     }
 
     @NonNull
@@ -251,8 +259,8 @@ public class FAV_adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void FAVremoveData(int position) {
-        SQLiteDatabase.loadLibs(mContext);
-        database = new FAV_sqlHelper(mContext);
+        databaseInit();
+        flag = false;
         database.removeFAV(adapter_list.get(position).getFAV_sqlID(), database.getWritableDatabase(MainActivity.lepass));
         adapter_list.remove(position);
         resetCurrentIndex();

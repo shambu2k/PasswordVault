@@ -90,6 +90,7 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
 
                 case R.id.action_select_all:
                     selectAll();
+                    mode.finish();
                     return true;
 
                 case R.id.action_fav_all:
@@ -241,16 +242,8 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
                         !sample_data.getD_username().equals("") ||
                         !sample_data.getD_pass().equals("") ||
                         !sample_data.getD_adiInfo().equals("")) {
-                    database = new GSMOWOM_sqlHelper(getContext());
-                    SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
-                    database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID(), dbW);
-                    SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
-                    data_list = database.getData(passwords_fragment.which_type, "OtherWebsites", dbR);
-                    Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherWebsites");
-                    adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
+                    database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID(), database.getWritableDatabase(MainActivity.lepass));
+                    initList();
                     editDialog.dismiss();
                 }
                 else{
@@ -262,6 +255,18 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
         adapter.notifyDataSetChanged();
     }
 
+    private void initList(){
+        data_list = database.getData(passwords_fragment.which_type, "OtherWebsites", database.getReadableDatabase(MainActivity.lepass));
+        adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void initDB(){
+        database = new GSMOWOM_sqlHelper(getContext());
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -269,13 +274,8 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
         SQLiteDatabase.loadLibs(getContext());
         recyclerView = view.findViewById(R.id.otherwebsites_rv);
         fab = view.findViewById(R.id.otherwebsites_fab);
-        database = new GSMOWOM_sqlHelper(getContext());
-        data_list = database.getData(passwords_fragment.which_type, "OtherWebsites", database.getReadableDatabase(MainActivity.lepass));
-        Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherWebsites");
-        adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        initDB();
+        initList();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,15 +318,8 @@ public class otherwebsites_fragment extends Fragment implements GSMOWOM_adapter.
                                 !sample_data.getD_username().equals("") ||
                                 !sample_data.getD_pass().equals("") ||
                                 !sample_data.getD_adiInfo().equals("")) {
-                            database = new GSMOWOM_sqlHelper(getContext());
-                            SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
-                            database.insertData(sample_data, dbW);
-                            SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
-                            data_list = database.getData(passwords_fragment.which_type, sample_data.getD_provider(), dbR);
-                            adapter = new GSMOWOM_adapter(data_list, getContext(), otherwebsites_fragment.this);
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setAdapter(adapter);
+                            database.insertData(sample_data, database.getWritableDatabase(MainActivity.lepass));
+                            initList();
                             addNew.dismiss();
                         }
                         else{

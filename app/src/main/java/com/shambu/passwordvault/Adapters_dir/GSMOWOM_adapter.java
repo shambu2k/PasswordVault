@@ -25,6 +25,7 @@ import java.util.List;
 public class GSMOWOM_adapter extends RecyclerView.Adapter<GSMOWOM_adapter.GSMOWOM_customViewHolder> {
 
     private List<GSMOWOM_data> adapterList;
+    private boolean flag = true;
     private Context mContext;
     private ClickAdapterListener listener;
     private SparseBooleanArray selectedItems;
@@ -38,6 +39,13 @@ public class GSMOWOM_adapter extends RecyclerView.Adapter<GSMOWOM_adapter.GSMOWO
         void onRowClicked(int position);
 
         void onRowLongClicked(int position);
+    }
+
+    private void databaseInit(){
+        if(flag) {
+            SQLiteDatabase.loadLibs(mContext);
+            database = new GSMOWOM_sqlHelper(mContext);
+        }
     }
 
     public GSMOWOM_adapter(List<GSMOWOM_data> adapterList, Context context) {
@@ -174,11 +182,11 @@ public class GSMOWOM_adapter extends RecyclerView.Adapter<GSMOWOM_adapter.GSMOWO
     }
 
     public void removeData(int position) {
-        SQLiteDatabase.loadLibs(mContext);
+
         Log.d(msg, "removeData method called (GSMOWOM adapter class)");
-        database = new GSMOWOM_sqlHelper(mContext);
-        SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
-        database.removeRow(adapterList.get(position).getD_ID(), dbW);
+        databaseInit();
+        flag = false;
+        database.removeRow(adapterList.get(position).getD_ID(), database.getWritableDatabase(MainActivity.lepass));
         adapterList.remove(position);
         resetCurrentIndex();
     }

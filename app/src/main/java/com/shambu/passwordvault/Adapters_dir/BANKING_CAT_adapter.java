@@ -35,6 +35,7 @@ public class BANKING_CAT_adapter extends RecyclerView.Adapter<BANKING_CAT_adapte
     private SparseBooleanArray selectedItems;
     private BANKING_sqlHelper banking_sqlHelper;
     private BANKING_CAT_sqlHelper banking_cat_sqlHelper;
+    private boolean flag = true;
 
 
     public BANKING_CAT_adapter(Context mContext, List<BANKINGCAT_data> name_list, ClickAdapterListenerBankingCat listener) {
@@ -42,6 +43,14 @@ public class BANKING_CAT_adapter extends RecyclerView.Adapter<BANKING_CAT_adapte
         this.name_list = name_list;
         this.listener = listener;
         selectedItems = new SparseBooleanArray();
+    }
+
+    private void databaseInit(){
+        if(flag) {
+            SQLiteDatabase.loadLibs(mContext);
+            banking_cat_sqlHelper = new BANKING_CAT_sqlHelper(mContext);
+            banking_sqlHelper = new BANKING_sqlHelper(mContext);
+        }
     }
 
     @NonNull
@@ -131,9 +140,8 @@ public class BANKING_CAT_adapter extends RecyclerView.Adapter<BANKING_CAT_adapte
     }
 
     public void BCremoveData(int position){
-        SQLiteDatabase.loadLibs(mContext);
-        banking_cat_sqlHelper = new BANKING_CAT_sqlHelper(mContext);
-        banking_sqlHelper = new BANKING_sqlHelper(mContext);
+        databaseInit();
+        flag = false;
         banking_cat_sqlHelper.removebankRow(name_list.get(position).getBcSqlID(), banking_cat_sqlHelper.getWritableDatabase(MainActivity.lepass),
                 banking_sqlHelper.getWritableDatabase(MainActivity.lepass), name_list.get(position).getBank_name());
         name_list.remove(position);

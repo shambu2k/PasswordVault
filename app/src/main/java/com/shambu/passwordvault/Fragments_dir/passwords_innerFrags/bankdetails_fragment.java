@@ -89,6 +89,7 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
 
                 case R.id.action_fav_all:
                     favAll();
+                    mode.finish();
                     return true;
 
                 default:
@@ -103,6 +104,18 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
         }
     };
 
+    private void initDB() {
+        database = new BANKING_sqlHelper(getContext());
+    }
+
+    private void initList() {
+        data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(MainActivity.lepass));
+        adapter = new BANKINGDETAILS_adapter(data_list, getContext(), bankdetails_fragment.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
+
 
     @Nullable
     @Override
@@ -113,12 +126,8 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
         ttv = view.findViewById(R.id.toolbar_bankdetails_tv);
         ttv.setText(BANKING_CAT_adapter.whichbankname);
         SQLiteDatabase.loadLibs(getContext());
-        database = new BANKING_sqlHelper(getContext());
-        data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(MainActivity.lepass));
-        adapter = new BANKINGDETAILS_adapter(data_list, getContext(), bankdetails_fragment.this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        initDB();
+        initList();
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -198,15 +207,8 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
                         data.setCreditcardnum(ccnos.toString());
                         data.setDebitcardnum(dcnos.toString());
 
-                        database = new BANKING_sqlHelper(getContext());
                         database.insertBankDetails(data, database.getWritableDatabase(MainActivity.lepass));
-
-                        database = new BANKING_sqlHelper(getContext());
-                        data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(MainActivity.lepass));
-                        adapter = new BANKINGDETAILS_adapter(data_list, getContext(), bankdetails_fragment.this);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
+                        initList();
                         addNew.dismiss();
                     }
                 });
@@ -262,12 +264,12 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
         //  actionMode = null;
     }
 
-    private void shareSelected(){
+    private void shareSelected() {
         List<Integer> selectedItemPositions =
                 adapter.BANKINGDetailsgetSelectedItems();
         StringBuilder builder = new StringBuilder();
         for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-            builder.append(adapter.BANKINGDetailsshareData(selectedItemPositions.get(i))+"\n");
+            builder.append(adapter.BANKINGDetailsshareData(selectedItemPositions.get(i)) + "\n");
         }
         adapter.notifyDataSetChanged();
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -335,52 +337,52 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < cnos.length(); i++) {
-            if(cnos.charAt(i)==','){
+            if (cnos.charAt(i) == ',') {
                 comma++;
             }
         }
 
-        nofc = comma - ((comma-1)/2);
+        nofc = comma - ((comma - 1) / 2);
 
         for (int i = 0; i < cnos.length(); i++) {
-            if(cnos.charAt(i)!='[' && cnos.charAt(i)!=']'){
-                if(cnos.charAt(i)!=','){
+            if (cnos.charAt(i) != '[' && cnos.charAt(i) != ']') {
+                if (cnos.charAt(i) != ',') {
                     builder.append(cnos.charAt(i));
-                    if(i==cnos.length()-3){
-                        if(nofc==3){
+                    if (i == cnos.length() - 3) {
+                        if (nofc == 3) {
                             cc3p.setText(builder.toString());
                             break;
                         }
-                        if(nofc==2){
+                        if (nofc == 2) {
                             cc2p.setText(builder.toString());
                             break;
                         }
-                        if(nofc==1){
+                        if (nofc == 1) {
                             cc1p.setText(builder.toString());
                             break;
                         }
 
                     }
                 }
-                if(cnos.charAt(i)==','){
+                if (cnos.charAt(i) == ',') {
                     countcomma++;
-                    if(countcomma==1){
+                    if (countcomma == 1) {
                         cc1.setText(builder.toString());
                         builder = new StringBuilder();
                     }
-                    if(countcomma==2){
+                    if (countcomma == 2) {
                         cc1p.setText(builder.toString());
                         builder = new StringBuilder();
                     }
-                    if(countcomma==3){
+                    if (countcomma == 3) {
                         cc2.setText(builder.toString());
                         builder = new StringBuilder();
                     }
-                    if(countcomma==4){
+                    if (countcomma == 4) {
                         cc2p.setText(builder.toString());
                         builder = new StringBuilder();
                     }
-                    if(countcomma==5){
+                    if (countcomma == 5) {
                         cc3.setText(builder.toString());
                         builder = new StringBuilder();
                     }
@@ -390,53 +392,53 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
         }
         comma = 0;
         for (int i = 0; i < dnos.length(); i++) {
-            if(dnos.charAt(i)==','){
+            if (dnos.charAt(i) == ',') {
                 comma++;
             }
         }
-        nofc = comma - ((comma-1)/2);
+        nofc = comma - ((comma - 1) / 2);
         countcomma = 0;
         builder = new StringBuilder();
 
         for (int i = 0; i < dnos.length(); i++) {
-            if(dnos.charAt(i)!='[' && dnos.charAt(i)!=']'){
-                if(dnos.charAt(i)!=','){
+            if (dnos.charAt(i) != '[' && dnos.charAt(i) != ']') {
+                if (dnos.charAt(i) != ',') {
                     builder.append(dnos.charAt(i));
-                    if(i==dnos.length()-3){
-                        if(nofc==3){
+                    if (i == dnos.length() - 3) {
+                        if (nofc == 3) {
                             dc3p.setText(builder.toString());
                             break;
                         }
-                        if(nofc==2){
+                        if (nofc == 2) {
                             dc2p.setText(builder.toString());
                             break;
                         }
-                        if(nofc==1){
+                        if (nofc == 1) {
                             dc1p.setText(builder.toString());
                             break;
                         }
 
                     }
                 }
-                if(dnos.charAt(i)==','){
+                if (dnos.charAt(i) == ',') {
                     countcomma++;
-                    if(countcomma==1){
+                    if (countcomma == 1) {
                         dc1.setText(builder.toString());
                         builder = new StringBuilder();
                     }
-                    if(countcomma==2){
+                    if (countcomma == 2) {
                         dc1p.setText(builder.toString());
                         builder = new StringBuilder();
                     }
-                    if(countcomma==3){
+                    if (countcomma == 3) {
                         dc2.setText(builder.toString());
                         builder = new StringBuilder();
                     }
-                    if(countcomma==4){
+                    if (countcomma == 4) {
                         dc2p.setText(builder.toString());
                         builder = new StringBuilder();
                     }
-                    if(countcomma==5){
+                    if (countcomma == 5) {
                         dc3.setText(builder.toString());
                         builder = new StringBuilder();
                     }
@@ -486,20 +488,14 @@ public class bankdetails_fragment extends Fragment implements BANKINGDETAILS_ada
                 data.setCreditcardnum(ccnos.toString());
                 data.setDebitcardnum(dcnos.toString());
 
-                database = new BANKING_sqlHelper(getContext());
                 database.updateBankDetails(data, data_list.get(selectedItemPositions.get(0)).getbSwlID(), database.getWritableDatabase(MainActivity.lepass));
-                database = new BANKING_sqlHelper(getContext());
-                data_list = database.getAllAccountsofBank(BANKING_CAT_adapter.whichbankname, database.getReadableDatabase(MainActivity.lepass));
-                adapter = new BANKINGDETAILS_adapter(data_list, getContext(), bankdetails_fragment.this);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+                initList();
                 editDialog.dismiss();
             }
         });
     }
 
-    private void deleteRows(){
+    private void deleteRows() {
         List<Integer> selectedItemPositions =
                 adapter.BANKINGDetailsgetSelectedItems();
         for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {

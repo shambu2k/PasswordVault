@@ -251,16 +251,8 @@ public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickA
                         !sample_data.getD_username().equals("") ||
                         !sample_data.getD_pass().equals("") ||
                         !sample_data.getD_adiInfo().equals("")) {
-                    database = new GSMOWOM_sqlHelper(getContext());
-                    SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
-                    database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID(), dbW);
-                    SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
-                    data_list = database.getData(passwords_fragment.which_type, social_media_fragment.whichprovider, dbR);
-                    Log.d(msg, "type: "+passwords_fragment.which_type+" prov: "+social_media_fragment.whichprovider);
-                    adapter = new GSMOWOM_adapter(data_list, getContext(), GSMOWOM_fragment.this);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
+                    database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID(), database.getWritableDatabase(MainActivity.lepass));
+                    initList();
                     editDialog.dismiss();
                 }
                 else{
@@ -272,6 +264,17 @@ public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickA
         adapter.notifyDataSetChanged();
     }
 
+    private void initDB(){
+        database = new GSMOWOM_sqlHelper(getContext());
+    }
+
+    private void initList(){
+        data_list = database.getData(passwords_fragment.which_type, social_media_fragment.whichprovider, database.getReadableDatabase(MainActivity.lepass));
+        adapter = new GSMOWOM_adapter(data_list, getContext(), GSMOWOM_fragment.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
 
     @Nullable
     @Override
@@ -282,13 +285,8 @@ public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickA
         fab = view.findViewById(R.id.gsmowom_fab);
         ttv = view.findViewById(R.id.socialmtoolbar_tv);
         ttv.setText(social_media_fragment.whichprovider);
-        database = new GSMOWOM_sqlHelper(getContext());
-        data_list = database.getData(passwords_fragment.which_type, social_media_fragment.whichprovider, database.getReadableDatabase(MainActivity.lepass));
-        Log.d(msg, "type: "+passwords_fragment.which_type+" prov: "+social_media_fragment.whichprovider);
-        adapter = new GSMOWOM_adapter(data_list, getContext(), GSMOWOM_fragment.this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        initDB();
+        initList();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -336,15 +334,9 @@ public class GSMOWOM_fragment extends Fragment implements GSMOWOM_adapter.ClickA
                                 !sample_data.getD_username().equals("") ||
                                 !sample_data.getD_pass().equals("") ||
                                 !sample_data.getD_adiInfo().equals("")) {
-                            database = new GSMOWOM_sqlHelper(getContext());
-                            SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
-                            database.insertData(sample_data, dbW);
-                            SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
-                            data_list = database.getData(passwords_fragment.which_type, social_media_fragment.whichprovider, dbR);
-                            adapter = new GSMOWOM_adapter(data_list, getContext(), GSMOWOM_fragment.this);
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setAdapter(adapter);
+                            database.insertData(sample_data, database.getWritableDatabase(MainActivity.lepass));
+
+                            initList();
                             addNew.dismiss();
                         }
                         else{

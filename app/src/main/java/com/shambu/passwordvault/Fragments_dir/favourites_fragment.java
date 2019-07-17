@@ -32,6 +32,7 @@ public class favourites_fragment extends Fragment implements FAV_adapter.ClickAd
     FAV_adapter adapter;
     List<FAV_data> data_list;
     FAV_sqlHelper database;
+    private SQLiteDatabase dbR, dbW;
     private String msg = favourites_fragment.class.getSimpleName();
     private ActionMode actionMode;
     private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
@@ -76,18 +77,24 @@ public class favourites_fragment extends Fragment implements FAV_adapter.ClickAd
         }
     };
 
+    private void initDBandList(){
+        database = new FAV_sqlHelper(getContext());
+        dbR = database.getReadableDatabase(MainActivity.lepass);
+        dbW = database.getWritableDatabase(MainActivity.lepass);
+        data_list = database.getALLfavData(dbR);
+        adapter = new FAV_adapter(data_list, getContext(), favourites_fragment.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favourites_fragment_layout, container, false);
         recyclerView = view.findViewById(R.id.favourites_rv);
         SQLiteDatabase.loadLibs(getContext());
-        database = new FAV_sqlHelper(getContext());
-        data_list = database.getALLfavData(database.getReadableDatabase(MainActivity.lepass));
-        adapter = new FAV_adapter(data_list, getContext(), favourites_fragment.this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        initDBandList();
 
         return view;
     }

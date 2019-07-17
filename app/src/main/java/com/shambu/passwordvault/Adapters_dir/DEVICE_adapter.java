@@ -27,6 +27,7 @@ public class DEVICE_adapter extends RecyclerView.Adapter<DEVICE_adapter.DEVICE_c
     private List<DEVICE_data> adapter_list;
     private Context mContext;
     private ClickAdapterListenerDevice listener;
+    private boolean flag = true;
     private SparseBooleanArray selectedItems;
     private DEVICE_sqlHelper database;
     private String msg = DEVICE_adapter.class.getSimpleName();
@@ -38,6 +39,13 @@ public class DEVICE_adapter extends RecyclerView.Adapter<DEVICE_adapter.DEVICE_c
         void onRowClicked(int position);
 
         void onRowLongClicked(int position);
+    }
+
+    private void databaseInit(){
+        if(flag) {
+            SQLiteDatabase.loadLibs(mContext);
+            database = new DEVICE_sqlHelper(mContext);
+        }
     }
 
     public DEVICE_adapter(List<DEVICE_data> adapter_list, Context mContext) {
@@ -166,11 +174,9 @@ public class DEVICE_adapter extends RecyclerView.Adapter<DEVICE_adapter.DEVICE_c
     }
 
     public void DEVICEremoveData(int position) {
-        SQLiteDatabase.loadLibs(mContext);
-        Log.d(msg, "removeData method called (DEVICE adapter class)");
-        database = new DEVICE_sqlHelper(mContext);
-        SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
-        database.DEVICEremoveRow(adapter_list.get(position).getSqldeviceID(), dbW);
+        databaseInit();
+        flag = false;
+        database.DEVICEremoveRow(adapter_list.get(position).getSqldeviceID(), database.getWritableDatabase(MainActivity.lepass));
         adapter_list.remove(position);
         resetCurrentIndex();
     }

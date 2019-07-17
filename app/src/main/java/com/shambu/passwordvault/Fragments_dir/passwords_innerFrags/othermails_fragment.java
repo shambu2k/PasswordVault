@@ -57,10 +57,9 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             MenuItem item = menu.getItem(1);
-            if(adapter.getSelectedItemCount() > 1){
+            if (adapter.getSelectedItemCount() > 1) {
                 item.setVisible(false);
-            }
-            else {
+            } else {
                 item.setVisible(true);
             }
             return false;
@@ -94,6 +93,7 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
 
                 case R.id.action_fav_all:
                     favAll();
+                    mode.finish();
                     return true;
 
                 default:
@@ -149,7 +149,7 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
             actionMode.invalidate();
         }
 
-      //  actionMode = null;
+        //  actionMode = null;
     }
 
     private void deleteRows() {
@@ -163,12 +163,12 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
         actionMode = null;
     }
 
-    private void shareSelected(){
+    private void shareSelected() {
         List<Integer> selectedItemPositions =
                 adapter.getSelectedItems();
         StringBuilder builder = new StringBuilder();
         for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-            builder.append(adapter.getShareData(selectedItemPositions.get(i))+"\n");
+            builder.append(adapter.getShareData(selectedItemPositions.get(i)) + "\n");
         }
         adapter.notifyDataSetChanged();
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -193,18 +193,16 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
         Toast.makeText(getContext(), "Added to favourites", Toast.LENGTH_SHORT).show();
     }
 
-    private void editSelected(){
+    private void editSelected() {
         final List<Integer> selectedItemPositions =
                 adapter.getSelectedItems();
         SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
-        if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
+        if (pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")) {
             editDialog = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
-        }
-        else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
+        } else if (pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")) {
             editDialog = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
-        }
-        else{
+        } else {
             editDialog = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
         }
         editDialog.setContentView(R.layout.add_new_gsmowom_dialog);
@@ -235,31 +233,34 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
                         TextUtils.isEmpty(userid.getText().toString()) ? "" : userid.getText().toString(),
                         TextUtils.isEmpty(passwrd.getText().toString()) ? "" : passwrd.getText().toString(),
                         TextUtils.isEmpty(notes.getText().toString()) ? "" : notes.getText().toString());
-                if(!sample_data.getD_provider().equals("") ||
+                if (!sample_data.getD_provider().equals("") ||
                         !sample_data.getD_assoEmail().equals("") ||
                         !sample_data.getD_assoPhno().equals("") ||
                         !sample_data.getD_username().equals("") ||
                         !sample_data.getD_pass().equals("") ||
                         !sample_data.getD_adiInfo().equals("")) {
-                    database = new GSMOWOM_sqlHelper(getContext());
-                    SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
-                    database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID(), dbW);
-                    SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
-                    data_list = database.getData(passwords_fragment.which_type, "OtherMails", dbR);
-                    Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherMails");
-                    adapter = new GSMOWOM_adapter(data_list, getContext(), othermails_fragment.this);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
+                    database.updateRow(sample_data, data_list.get(selectedItemPositions.get(0)).getD_ID(), database.getWritableDatabase(MainActivity.lepass));
+                    initList();
                     editDialog.dismiss();
-                }
-                else{
+                } else {
                     editDialog.dismiss();
                 }
 
             }
         });
         adapter.notifyDataSetChanged();
+    }
+
+    private void initDB() {
+        database = new GSMOWOM_sqlHelper(getContext());
+    }
+
+    private void initList() {
+        data_list = database.getData(passwords_fragment.which_type, "OtherMails", database.getReadableDatabase(MainActivity.lepass));
+        adapter = new GSMOWOM_adapter(data_list, getContext(), othermails_fragment.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
     @Nullable
@@ -269,27 +270,19 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
         SQLiteDatabase.loadLibs(getContext());
         recyclerView = view.findViewById(R.id.othermails_rv);
         fab = view.findViewById(R.id.othermails_fab);
-        database = new GSMOWOM_sqlHelper(getContext());
-        SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
-        data_list = database.getData(passwords_fragment.which_type, "OtherMails", dbR);
-        Log.d(msg, "type: "+passwords_fragment.which_type+" prov: OtherMails");
-        adapter = new GSMOWOM_adapter(data_list, getContext(), othermails_fragment.this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        initDB();
+        initList();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
-                if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
+                if (pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")) {
                     addNew = new Dialog(getContext(), android.R.style.Theme_Material_NoActionBar);
-                }
-                else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
+                } else if (pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")) {
                     addNew = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
-                }
-                else{
+                } else {
                     addNew = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
                 }
                 addNew.setContentView(R.layout.add_new_gsmowom_dialog);
@@ -313,24 +306,16 @@ public class othermails_fragment extends Fragment implements GSMOWOM_adapter.Cli
                                 TextUtils.isEmpty(userid.getText().toString()) ? "" : userid.getText().toString(),
                                 TextUtils.isEmpty(passwrd.getText().toString()) ? "" : passwrd.getText().toString(),
                                 TextUtils.isEmpty(notes.getText().toString()) ? "" : notes.getText().toString());
-                        if(!sample_data.getD_provider().equals("") ||
+                        if (!sample_data.getD_provider().equals("") ||
                                 !sample_data.getD_assoEmail().equals("") ||
                                 !sample_data.getD_assoPhno().equals("") ||
                                 !sample_data.getD_username().equals("") ||
                                 !sample_data.getD_pass().equals("") ||
                                 !sample_data.getD_adiInfo().equals("")) {
-                            database = new GSMOWOM_sqlHelper(getContext());
-                            SQLiteDatabase dbW = database.getWritableDatabase(MainActivity.lepass);
-                            database.insertData(sample_data, dbW);
-                            SQLiteDatabase dbR = database.getReadableDatabase(MainActivity.lepass);
-                            data_list = database.getData(passwords_fragment.which_type, sample_data.getD_provider(), dbR);
-                            adapter = new GSMOWOM_adapter(data_list, getContext(), othermails_fragment.this);
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setAdapter(adapter);
+                            database.insertData(sample_data, database.getWritableDatabase(MainActivity.lepass));
+                            initList();
                             addNew.dismiss();
-                        }
-                        else{
+                        } else {
                             addNew.dismiss();
                         }
 

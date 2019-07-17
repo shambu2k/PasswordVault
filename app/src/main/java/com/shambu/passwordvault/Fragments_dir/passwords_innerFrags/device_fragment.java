@@ -46,7 +46,6 @@ import java.util.List;
 public class device_fragment extends Fragment implements DEVICE_adapter.ClickAdapterListenerDevice {
 
     private RecyclerView recyclerView;
-    private SQLiteDatabase dbR, dbW;
     private DEVICE_adapter adapter;
     private FloatingActionButton fab;
     private List<DEVICE_data> data_list;
@@ -165,6 +164,18 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
         }
     };
 
+    private void initDB(){
+        database = new DEVICE_sqlHelper(getContext());
+    }
+
+    private void initList(){
+        data_list = database.getallDEVICEdata(database.getReadableDatabase(MainActivity.lepass));
+        adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -172,14 +183,9 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
         SQLiteDatabase.loadLibs(getContext());
         recyclerView = view.findViewById(R.id.devices_rv);
         fab = view.findViewById(R.id.devices_fab);
-        database = new DEVICE_sqlHelper(getContext());
-        dbR = database.getReadableDatabase(MainActivity.lepass);
-        data_list = database.getallDEVICEdata(dbR);
+        initDB();
+        initList();
 
-        adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,17 +240,8 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
 
                         if(singleData.getSecurityType().equals("Pattern")){
                             if(singleData.getPINorPassorPattern()!=null){
-                                database = new DEVICE_sqlHelper(getContext());
-
-                                dbW = database.getWritableDatabase(MainActivity.lepass);
-                                database.insertDEVICEdata(singleData, dbW);
-                                dbR = database.getReadableDatabase(MainActivity.lepass);
-                                data_list = database.getallDEVICEdata(dbR);
-
-                                adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
-                                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                                recyclerView.setLayoutManager(layoutManager);
-                                recyclerView.setAdapter(adapter);
+                                database.insertDEVICEdata(singleData, database.getWritableDatabase(MainActivity.lepass));
+                                initList();
                                 addNew.dismiss();
                             }
                             else{
@@ -253,16 +250,8 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                         }
                         else{
                             if(!singleData.getPINorPassorPattern().equals("")){
-                                database = new DEVICE_sqlHelper(getContext());
-                                dbW = database.getWritableDatabase(MainActivity.lepass);
-                                database.insertDEVICEdata(singleData, dbW);
-                                dbR = database.getReadableDatabase(MainActivity.lepass);
-                                data_list = database.getallDEVICEdata(dbR);
-
-                                adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
-                                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                                recyclerView.setLayoutManager(layoutManager);
-                                recyclerView.setAdapter(adapter);
+                                database.insertDEVICEdata(singleData, database.getWritableDatabase(MainActivity.lepass));
+                                initList();
                                 addNew.dismiss();
                             }
                             else{
@@ -532,18 +521,8 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
 
                 if(singleData_editDialog.getSecurityType().equals("Pattern")){
                     if(singleData_editDialog.getPINorPassorPattern()!=null){
-                        database = new DEVICE_sqlHelper(getContext());
-                        dbW = database.getWritableDatabase(MainActivity.lepass);
-
-                        database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID(), dbW);
-
-                        dbR = database.getReadableDatabase(MainActivity.lepass);
-                        data_list = database.getallDEVICEdata(dbR);
-
-                        adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
+                        database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID(), database.getWritableDatabase(MainActivity.lepass));
+                        initList();
                         editDialog.dismiss();
                     }
                     else{
@@ -552,19 +531,8 @@ public class device_fragment extends Fragment implements DEVICE_adapter.ClickAda
                 }
                 else{
                     if(!singleData_editDialog.getPINorPassorPattern().equals("")){
-                        database = new DEVICE_sqlHelper(getContext());
-                        dbW = database.getWritableDatabase(MainActivity.lepass);
-
-                        database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID(), dbW);
-
-                        dbR = database.getReadableDatabase(MainActivity.lepass);
-                        data_list = database.getallDEVICEdata(dbR);
-
-
-                        adapter = new DEVICE_adapter(data_list, getContext(), device_fragment.this);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
+                        database.DEVICEupdateRow(singleData_editDialog, data_list.get(selectedItemPositions.get(0)).getSqldeviceID(), database.getWritableDatabase(MainActivity.lepass));
+                        initList();
                         editDialog.dismiss();
                     }
                     else{

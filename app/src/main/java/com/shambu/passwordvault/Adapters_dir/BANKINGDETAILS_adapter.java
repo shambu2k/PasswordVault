@@ -30,6 +30,7 @@ public class BANKINGDETAILS_adapter extends RecyclerView.Adapter<BANKINGDETAILS_
     private SparseBooleanArray selectedItems;
     private Context mContext;
     private BANKING_sqlHelper database;
+    private boolean flag = true;
 
     private String msg = BANKINGDETAILS_adapter.class.getSimpleName();
 
@@ -38,6 +39,13 @@ public class BANKINGDETAILS_adapter extends RecyclerView.Adapter<BANKINGDETAILS_
         this.mContext = mContext;
         this.listener = listener;
         selectedItems = new SparseBooleanArray();
+    }
+
+    private void databaseInit(){
+        if(flag) {
+            SQLiteDatabase.loadLibs(mContext);
+            database = new BANKING_sqlHelper(mContext);
+        }
     }
 
     @NonNull
@@ -187,8 +195,8 @@ public class BANKINGDETAILS_adapter extends RecyclerView.Adapter<BANKINGDETAILS_
     }
 
     public void BANKINGDetailsremoveData(int position){
-        SQLiteDatabase.loadLibs(mContext);
-        database = new BANKING_sqlHelper(mContext);
+        databaseInit();
+        flag = false;
         database.deleteAccountDetails(adapter_list.get(position).getbSwlID(), database.getWritableDatabase(MainActivity.lepass));
         adapter_list.remove(position);
         resetCurrentIndex();
