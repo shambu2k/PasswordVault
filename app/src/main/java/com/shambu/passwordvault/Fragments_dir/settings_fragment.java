@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,11 +29,17 @@ import com.shambu.passwordvault.Sql_dir.BANKING_sqlHelper;
 import com.shambu.passwordvault.Sql_dir.DEVICE_sqlHelper;
 import com.shambu.passwordvault.Sql_dir.FAV_sqlHelper;
 import com.shambu.passwordvault.Sql_dir.GSMOWOM_sqlHelper;
+import com.shambu.passwordvault.Sql_dir.password_text_sql;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 public class settings_fragment extends Fragment {
 
     private Switch drkmode;
-    private CardView deleteCard, reportCard;
+    private CardView deleteCard, reportCard, importCard, exportCard;
     private AlertDialog.Builder deleteAlert;
     private Spinner sortSpinner;
     private BANKING_sqlHelper banking_sqlHelper;
@@ -57,6 +64,8 @@ public class settings_fragment extends Fragment {
         drkmode = view.findViewById(R.id.darkmode_switch);
         reportCard = view.findViewById(R.id.reportissue_card);
         deleteCard = view.findViewById(R.id.deleteall_card);
+        importCard = view.findViewById(R.id.import_card);
+        exportCard = view.findViewById(R.id.export_card);
         deleteAlert = new AlertDialog.Builder(getContext());
         sortSpinner = view.findViewById(R.id.sort_spinner);
         sortSpinner.setOnItemSelectedListener(new sort_spinner_class());
@@ -129,6 +138,19 @@ public class settings_fragment extends Fragment {
             }
         });
 
+        exportCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exportDB(BANKING_CAT_sqlHelper.DATABASE_NAME);
+                exportDB(BANKING_sqlHelper.DATABASE_NAME);
+                exportDB(DEVICE_sqlHelper.DATABASE_NAME);
+                exportDB(FAV_sqlHelper.DATABASE_NAME);
+                exportDB(GSMOWOM_sqlHelper.DATABASE_NAME);
+                exportDB(password_text_sql.DATABASE_NAME);
+
+            }
+        });
+
         return view;
     }
 
@@ -172,5 +194,27 @@ public class settings_fragment extends Fragment {
         }
     }
 
+    private void exportDB(String dbname) {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//"+ "com.shambu.passwordvault" +"//databases//"+dbname;
+                String backupDBPath = "/PassV/"+dbname;
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+                Toast.makeText(getContext(), backupDB.toString(), Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
 
 }

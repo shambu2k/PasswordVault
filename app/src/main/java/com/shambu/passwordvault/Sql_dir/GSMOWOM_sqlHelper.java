@@ -16,7 +16,7 @@ import java.util.List;
 public class GSMOWOM_sqlHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "GSMOWOM";
+    public static final String DATABASE_NAME = "GSMOWOM";
     private static final String TABLE_NAME = "GSMOWOM_table";
     private static final String COL_id = "sno";
     private static final String COL_type = "type";

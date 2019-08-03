@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -32,11 +34,13 @@ import com.shambu.passwordvault.Sql_dir.password_text_sql;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
+    private File pkg;
     private static final int SECURITY_SETTING_REQUEST_CODE = 233;
     private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
     public static String lepass;
@@ -55,10 +59,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SQLiteDatabase.loadLibs(MainActivity.this);
+        pkg= new File(Environment.getExternalStorageDirectory()+"/PassV");
+        if(!pkg.exists()){
+            pkg.mkdir();
+        }
         settingsChecker();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         rr = findViewById(R.id.mainreallay);
         rr.setVisibility(View.GONE);
         mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
@@ -219,10 +226,18 @@ public class MainActivity extends AppCompatActivity {
             sql_pass_dialog.setContentView(R.layout.sql_pass_dialog);
             final TextView pass = sql_pass_dialog.findViewById(R.id.sqlpass_edt);
             Button sqlSave = sql_pass_dialog.findViewById(R.id.save_sqlpass_button);
+            TextView import_tv = sql_pass_dialog.findViewById(R.id.import_textview);
+            import_tv.setPaintFlags(import_tv.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             sql_pass_dialog.setCancelable(false);
             sql_pass_dialog.setCanceledOnTouchOutside(false);
             sql_pass_dialog.show();
 
+            import_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
             sqlSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -239,7 +254,9 @@ public class MainActivity extends AppCompatActivity {
             sql_pass_dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
             sql_pass_dialog.setContentView(R.layout.sql_pass_dialog);
             LinearLayout info = sql_pass_dialog.findViewById(R.id.pass_info);
+            TextView import_tv = sql_pass_dialog.findViewById(R.id.import_textview);
             info.setVisibility(View.GONE);
+            import_tv.setVisibility(View.GONE);
             final TextView pass = sql_pass_dialog.findViewById(R.id.sqlpass_edt);
             Button sqlSave = sql_pass_dialog.findViewById(R.id.save_sqlpass_button);
             sql_pass_dialog.setCancelable(false);

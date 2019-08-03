@@ -16,7 +16,7 @@ import java.util.List;
 public class DEVICE_sqlHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "DEVICE";
+    public static final String DATABASE_NAME = "DEVICE";
     private static final String TABLE_NAME = "DEVICE_table";
     private static final String COL_id = "sno";
     private static final String COL_type = "type";

@@ -16,7 +16,7 @@ import java.util.List;
 public class BANKING_sqlHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "BANKING";
+    public static final String DATABASE_NAME = "BANKING";
     private static final String TABLE_NAME = "BANKING_table";
     private static final String COL_id = "sno";
     private static final String COL_Bname = "bankName";

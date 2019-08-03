@@ -72,4 +72,13 @@ future for encryption/decryption.\n"
         android:layout_height="wrap_content"
         android:text="open" />
 
+    <TextView
+        android:id="@+id/import_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Import from Local?"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="26sp"/>
+
 </LinearLayout>

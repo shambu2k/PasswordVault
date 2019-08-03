@@ -19,7 +19,7 @@ import java.util.List;
 public class FAV_sqlHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "fav";
+    public static final String DATABASE_NAME = "fav";
     private static final String TABLE_NAME = "Favourites";
     private static final String COL_id = "sno";
     private static final String COL_dataType = "DataType";
