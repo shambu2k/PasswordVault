@@ -1,5 +1,7 @@
 # PasswordVault
 
+### Features
+
 * A simple and secure app to store your passwords.
 
 * Passwords are stored in databases with **256-bit AES** Encryption. (Uses SQLCipher)
@@ -10,3 +12,6 @@
 
 * Added an Export - Import option.
 
+### Screenshots
+
+![Main Screen] (https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Main_day.png)
