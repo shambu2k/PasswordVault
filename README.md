@@ -14,9 +14,9 @@
 
 ### Screenshots
 
-<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Main_day.png" width="180" height="360"> <img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/DARKMODE.png" width="180" height="360">
+<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Main_day.png" width="360" height="720"> <img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/DARKMODE.png" width="360" height="720">
 
-<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Add%20Password2.png" width="180" height="360"> <img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Selection.png" width="180" height="360">
+<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Add%20Password2.png" width="360" height="720"> <img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Selection.png" width="360" height="720">
 
-<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Passwords2.png" width="180" height="360"> <img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Too%20much.png" width="180" height="360">
+<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Passwords2.png" width="360" height="720"> <img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Too%20much.png" width="360" height="720">
 
