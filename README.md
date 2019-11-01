@@ -14,9 +14,9 @@
 
 ### Screenshots
 
-![Main Screen](https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Main_day.png)
-![Main Screen in dark mode](https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/DARKMODE.png)
-![Adding passwords](https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Add%20Password2.png)
-![Device Passwords](https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Passwords.png)
-![Mail IDs](https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Passwords2.png)
-![Social Media](https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Too%20much.png)
+<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Main_day.png" width="360" height="720">
+<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/DARKMODE.png" width="360" height="720">
+<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Add%20Password2.png" width="360" height="720">
+<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Passwords.png" width="360" height="720">
+<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Passwords2.png" width="360" height="720">
+<img src="https://github.com/shambu2k/PasswordVault/blob/master/Screenshots/Too%20much.png" width="360" height="720">
