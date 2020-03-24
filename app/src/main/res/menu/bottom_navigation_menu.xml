@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-        <item android:id="@+id/passwords_frag_menu"
+        <item android:id="@+id/passwordsFrag"
             android:icon="@drawable/ic_passwords_black_24dp"
             android:title="Passwords"/>
-        <item android:id="@+id/favourites_frag_menu"
+        <item android:id="@+id/favouritesFrag"
             android:icon="@drawable/ic_favorite_border_black_24dp"
             android:title="Favourites"/>
-    <item android:id="@+id/settings_frag_menu"
+    <item android:id="@+id/settingsFrag"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Settings"/>
 

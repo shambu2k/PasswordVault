@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Social Media">
-
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:title="Social Accounts" >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="22sp"
-                android:text="Social Media" />
+                android:text="Social Accounts" />
 
             <View
                 android:layout_width="match_parent"
@@ -30,574 +34,37 @@
                 android:layout_height="2dp"/>
 
         </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
-
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.v4.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/social_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/fb_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/facebook_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="Facebook"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your Facebook accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/twitter_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/twitter_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="Twitter"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your Twitter accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/insta_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/instagram_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="Instagram"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your Instagram accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/reddit_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/reddit_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="Reddit"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your Reddit accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/linkedIn_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/linkedin_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="LinkedIn"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your LinkedIn accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/tubmlr_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/tumblr_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="Tumblr"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your Tumblr accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/pin_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/pinterest_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="Pinterest"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your Pinterest accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/med_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/medium_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="Medium"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your Medium accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/tinder_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/tinder_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="Tinder"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your Tinder accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/other_card_social"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_margin="8dp"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:src="@drawable/others_logo"
-                        android:background="@drawable/circle_white" />
-
-                    <LinearLayout
-                        android:layout_marginTop="9dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="3dp"
-                            android:text="Others"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="#D3D3D3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="2dp"
-                            android:paddingBottom="1dp"
-                            android:text="Store credentials of all your Other accounts"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-
-
-
-</LinearLayout>
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/social_fab"
+        app:fabCustomSize="60dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_add_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.987" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

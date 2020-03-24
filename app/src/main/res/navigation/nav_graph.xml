@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/passwordsFrag">
+
+    <fragment
+        android:id="@+id/settingsFrag"
+        android:name="com.shambu.passwordvault.Views.settings_fragment"
+        android:label="settings_fragment" />
+    <fragment
+        android:id="@+id/favouritesFrag"
+        android:name="com.shambu.passwordvault.Views.InnerFragments.favourites_fragment"
+        android:label="favourites_fragment" />
+    <fragment
+        android:id="@+id/bankdetails_fragment"
+        android:name="com.shambu.passwordvault.Views.InnerFragments.bankdetails_fragment"
+        android:label="bankdetails_fragment" />
+    <fragment
+        android:id="@+id/device_fragment"
+        android:name="com.shambu.passwordvault.Views.InnerFragments.device_fragment"
+        android:label="device_fragment" />
+    <fragment
+        android:id="@+id/otherwebsites_fragment"
+        android:name="com.shambu.passwordvault.Views.InnerFragments.otherwebsites_fragment"
+        android:label="otherwebsites_fragment" />
+    <fragment
+        android:id="@+id/social_media_fragment"
+        android:name="com.shambu.passwordvault.Views.InnerFragments.social_media_fragment"
+        android:label="social_media_fragment" />
+    <fragment
+        android:id="@+id/passwordsFrag"
+        android:name="com.shambu.passwordvault.Views.passwords_fragment"
+        android:label="passwords_fragment" >
+        <action
+            android:id="@+id/action_passwords_fragment_to_bankdetails_fragment"
+            app:destination="@id/bankdetails_fragment" />
+        <action
+            android:id="@+id/action_passwords_fragment_to_emails_fragment"
+            app:destination="@id/emails_fragment" />
+        <action
+            android:id="@+id/action_passwords_fragment_to_device_fragment"
+            app:destination="@id/device_fragment" />
+        <action
+            android:id="@+id/action_passwords_fragment_to_social_media_fragment"
+            app:destination="@id/social_media_fragment" />
+        <action
+            android:id="@+id/action_passwords_fragment_to_otherwebsites_fragment"
+            app:destination="@id/otherwebsites_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emails_fragment"
+        android:name="com.shambu.passwordvault.Views.InnerFragments.emails_fragment"
+        android:label="emails_fragment" />
+</navigation>
