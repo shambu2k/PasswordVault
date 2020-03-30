@@ -6,7 +6,6 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.shambu.passwordvault.Views.MainActivity;
 import com.shambu.passwordvault.Model.Daos.BANKING_data_DAO;
 import com.shambu.passwordvault.Model.Daos.DEVICE_data_DAO;
 import com.shambu.passwordvault.Model.Daos.FAV_data_DAO;
@@ -30,11 +29,14 @@ public abstract class PassDatabase extends RoomDatabase {
     public abstract GSMOWOM_data_DAO gsmowom_data_dao();
     public abstract FAV_data_DAO fav_data_dao();
 
-    public static synchronized PassDatabase getInstance(Context context){
+    public static synchronized PassDatabase getInstance(Context context, String userEnteredPassphrase){
+        final byte[] passphrase = SQLiteDatabase.getBytes(userEnteredPassphrase.toCharArray());
+        final SupportFactory factory = new SupportFactory(passphrase);
         if(instance==null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     PassDatabase.class, "pass_database")
                     .fallbackToDestructiveMigration()
+                    .openHelperFactory(factory)
                     .build();
         }
         return instance;

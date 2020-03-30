@@ -23,10 +23,10 @@ public interface GSMOWOM_data_DAO {
     @Delete
     void deleteGSMOWOMData(GSMOWOM_data data);
 
-    @Query("DELETE FROM gsmowom_table WHERE D_type LIKE :MailOtherSocial")
+    @Query("DELETE FROM gsmowom_table WHERE D_type BETWEEN :MailOtherSocial AND :MailOtherSocial")
     void deleteAllGSMOWOMData(int MailOtherSocial);
 
-    @Query("SELECT * FROM gsmowom_table")
-    LiveData<List<GSMOWOM_data>> getAllGSMOWOMdata();
+    @Query("SELECT * FROM gsmowom_table WHERE D_type = :typeofGSMOWOM")
+    LiveData<List<GSMOWOM_data>> getAllGSMOWOMdata(int typeofGSMOWOM);
 
 }

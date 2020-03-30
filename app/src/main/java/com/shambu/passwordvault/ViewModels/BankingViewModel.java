@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.shambu.passwordvault.Model.Entities.BANKING_data;
 import com.shambu.passwordvault.Model.Entities.FAV_data;
 import com.shambu.passwordvault.Model.PassRepository;
+import com.shambu.passwordvault.Views.MainActivity;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class BankingViewModel extends AndroidViewModel {
 
     public BankingViewModel(@NonNull Application application) {
         super(application);
-        passRepository = new PassRepository(application);
+        passRepository = new PassRepository(application, MainActivity.lepass);
         allBankData = passRepository.getAllBanks();
     }
 

@@ -303,10 +303,10 @@ public class otherwebsites_fragment extends Fragment implements ClickAdapterList
         rv.setAdapter(adapter);
 
         viewModel = new ViewModelProvider(this).get(GSMOWOMViewModel.class);
-        viewModel.getAllGSMOWOMData().observe(getViewLifecycleOwner(), new Observer<List<GSMOWOM_data>>() {
+        viewModel.getAllGSMOWOMData(OTHER_TYPE).observe(getViewLifecycleOwner(), new Observer<List<GSMOWOM_data>>() {
             @Override
             public void onChanged(List<GSMOWOM_data> data) {
-                adapter.refreshList(data, OTHER_TYPE);
+                adapter.refreshList(data);
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {

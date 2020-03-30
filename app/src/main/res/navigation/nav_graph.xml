@@ -11,7 +11,7 @@
         android:label="settings_fragment" />
     <fragment
         android:id="@+id/favouritesFrag"
-        android:name="com.shambu.passwordvault.Views.InnerFragments.favourites_fragment"
+        android:name="com.shambu.passwordvault.Views.favourites_fragment"
         android:label="favourites_fragment" />
     <fragment
         android:id="@+id/bankdetails_fragment"

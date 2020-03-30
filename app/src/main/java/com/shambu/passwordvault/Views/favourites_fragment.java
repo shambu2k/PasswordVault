@@ -1,4 +1,4 @@
-package com.shambu.passwordvault.Views.InnerFragments;
+package com.shambu.passwordvault.Views;
 
 import android.content.Intent;
 import android.os.Bundle;

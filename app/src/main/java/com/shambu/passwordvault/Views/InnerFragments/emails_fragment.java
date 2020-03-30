@@ -304,10 +304,10 @@ public class emails_fragment extends Fragment implements ClickAdapterListener {
         rv.setAdapter(adapter);
 
         viewModel = new ViewModelProvider(this).get(GSMOWOMViewModel.class);
-        viewModel.getAllGSMOWOMData().observe(getViewLifecycleOwner(), new Observer<List<GSMOWOM_data>>() {
+        viewModel.getAllGSMOWOMData(MAIL_TYPE).observe(getViewLifecycleOwner(), new Observer<List<GSMOWOM_data>>() {
             @Override
             public void onChanged(List<GSMOWOM_data> data) {
-                adapter.refreshList(data, MAIL_TYPE);
+                adapter.refreshList(data);
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {

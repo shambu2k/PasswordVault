@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -32,12 +33,12 @@ import java.nio.channels.FileChannel;
 public class settings_fragment extends Fragment {
 
     private Switch drkmode;
-    private CardView deleteCard, reportCard, importCard, exportCard;
-    private AlertDialog.Builder deleteAlert;
-    private Spinner sortSpinner;
+    private LinearLayout deleteCard, reportCard, importCard, exportCard;
+  //  private AlertDialog.Builder deleteAlert;
+  //  private Spinner sortSpinner;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
-    private ArrayAdapter<CharSequence> sort_spin_adapter;
+  //  private ArrayAdapter<CharSequence> sort_spin_adapter;
 
 
     @Nullable
@@ -46,7 +47,7 @@ public class settings_fragment extends Fragment {
         View view = inflater.inflate(R.layout.settings_fragment_layout, container, false);
         drkmode = view.findViewById(R.id.darkmode_switch);
         reportCard = view.findViewById(R.id.reportissue_card);
-        deleteCard = view.findViewById(R.id.deleteall_card);
+    /*    deleteCard = view.findViewById(R.id.deleteall_card);
         importCard = view.findViewById(R.id.import_card);
         exportCard = view.findViewById(R.id.export_card);
         deleteAlert = new AlertDialog.Builder(getContext());
@@ -55,7 +56,7 @@ public class settings_fragment extends Fragment {
         sort_spin_adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.SORT_TYPE, android.R.layout.simple_spinner_item);
         sort_spin_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sortSpinner.setAdapter(sort_spin_adapter);
+        sortSpinner.setAdapter(sort_spin_adapter); */
         pref = getContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         editor = pref.edit();
 
@@ -69,24 +70,30 @@ public class settings_fragment extends Fragment {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     editor.putString("DARKMODE_TOGGLE", "YES");
                     editor.apply();
-                    getActivity().finish();
-                    Intent intent = new Intent(getContext(), MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    getActivity().recreate();
                 }
                 else{
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     editor.putString("DARKMODE_TOGGLE", "NO");
                     editor.apply();
-                    getActivity().finish();
-                    Intent intent = new Intent(getContext(), MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    getActivity().recreate();
                 }
             }
         });
 
-        deleteCard.setOnClickListener(new View.OnClickListener() {
+        reportCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] receiver = {"sidharthshambu00@gmail.com"};
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, receiver);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Password Vault - Issue");
+                emailIntent.setType("message/rfc822");
+                startActivity(Intent.createChooser(emailIntent, "Choose email client"));
+            }
+        });
+
+     /*   deleteCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteAlert.setMessage("Do you really want to delete all data?")
@@ -105,19 +112,8 @@ public class settings_fragment extends Fragment {
             }
         });
 
-        reportCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] receiver = {"sidharthshambu00@gmail.com"};
-                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, receiver);
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Password Vault - Issue");
-                emailIntent.setType("message/rfc822");
-                startActivity(Intent.createChooser(emailIntent, "Choose email client"));
-            }
-        });
 
-        /* exportCard.setOnClickListener(new View.OnClickListener() {
+         exportCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 exportDB(BANKING_CAT_sqlHelper.DATABASE_NAME);
@@ -136,7 +132,6 @@ public class settings_fragment extends Fragment {
     private void settingsSavedPref(){
         if(pref.getString("DARKMODE_TOGGLE", "NO").equals("YES")){
             drkmode.setChecked(true);
-
         }
         else if(pref.getString("DARKMODE_TOGGLE", "NO").equals("NO")){
             drkmode.setChecked(false);
@@ -145,7 +140,7 @@ public class settings_fragment extends Fragment {
             drkmode.setChecked(false);
         }
 
-        if(pref.getString("SORT", "Alphabetically / Ascending").equals("Alphabetically / Ascending")){
+    /*    if(pref.getString("SORT", "Alphabetically / Ascending").equals("Alphabetically / Ascending")){
             sortSpinner.setSelection(sort_spin_adapter.getPosition("Alphabetically / Ascending"));
         }
         else if(pref.getString("SORT", "Alphabetically / Ascending").equals("Zalphabetically / Descending")){
@@ -156,10 +151,10 @@ public class settings_fragment extends Fragment {
         }
         else {
             sortSpinner.setSelection(sort_spin_adapter.getPosition("Oldest first"));
-        }
+        } */
     }
 
-    private class sort_spinner_class implements AdapterView.OnItemSelectedListener{
+  /*  private class sort_spinner_class implements AdapterView.OnItemSelectedListener{
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -194,6 +189,6 @@ public class settings_fragment extends Fragment {
         } catch (Exception e) {
             Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
         }
-    }
+    } */
 
 }

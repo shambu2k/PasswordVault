@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.shambu.passwordvault.Model.Entities.FAV_data;
 import com.shambu.passwordvault.Model.PassRepository;
+import com.shambu.passwordvault.Views.MainActivity;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class FavViewModel extends AndroidViewModel {
 
     public FavViewModel(@NonNull Application application) {
         super(application);
-        passRepository = new PassRepository(application);
+        passRepository = new PassRepository(application, MainActivity.lepass);
         allFavdata = passRepository.getAllFavdata();
     }
 

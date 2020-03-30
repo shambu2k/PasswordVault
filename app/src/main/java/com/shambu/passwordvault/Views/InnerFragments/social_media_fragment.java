@@ -309,10 +309,10 @@ public class social_media_fragment extends Fragment implements ClickAdapterListe
         rv.setAdapter(adapter);
 
         viewModel = new ViewModelProvider(this).get(GSMOWOMViewModel.class);
-        viewModel.getAllGSMOWOMData().observe(getViewLifecycleOwner(), new Observer<List<GSMOWOM_data>>() {
+        viewModel.getAllGSMOWOMData(SOCIAL_TYPE).observe(getViewLifecycleOwner(), new Observer<List<GSMOWOM_data>>() {
             @Override
             public void onChanged(List<GSMOWOM_data> data) {
-                adapter.refreshList(data, SOCIAL_TYPE);
+                adapter.refreshList(data);
             }
         });
 

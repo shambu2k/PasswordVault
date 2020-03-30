@@ -10,18 +10,17 @@ import com.google.gson.Gson;
 import com.shambu.passwordvault.Model.Entities.FAV_data;
 import com.shambu.passwordvault.Model.Entities.GSMOWOM_data;
 import com.shambu.passwordvault.Model.PassRepository;
+import com.shambu.passwordvault.Views.MainActivity;
 
 import java.util.List;
 
 public class GSMOWOMViewModel extends AndroidViewModel {
 
     private PassRepository passRepository;
-    private LiveData<List<GSMOWOM_data>> allGSMOWOMData;
 
     public GSMOWOMViewModel(@NonNull Application application) {
         super(application);
-        passRepository = new PassRepository(application);
-        allGSMOWOMData = passRepository.getAllGSMOWOMdata();
+        passRepository = new PassRepository(application, MainActivity.lepass);
     }
 
     public void insert(GSMOWOM_data data){
@@ -46,7 +45,7 @@ public class GSMOWOMViewModel extends AndroidViewModel {
         passRepository.deleteAllGSMOWOMdata(type);
     }
 
-    public LiveData<List<GSMOWOM_data>> getAllGSMOWOMData(){
-        return allGSMOWOMData;
+    public LiveData<List<GSMOWOM_data>> getAllGSMOWOMData(int dtype){
+        return passRepository.getAllGSMOWOMdata(dtype);
     }
 }

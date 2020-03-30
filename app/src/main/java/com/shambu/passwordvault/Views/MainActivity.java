@@ -30,10 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.shambu.passwordvault.Model.PassRepository;
 import com.shambu.passwordvault.R;
-
-import net.sqlcipher.database.SQLiteDatabase;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -41,6 +38,7 @@ import java.util.regex.Pattern;
 
 import static com.shambu.passwordvault.Constants.REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS;
 import static com.shambu.passwordvault.Constants.SECURITY_SETTING_REQUEST_CODE;
+import static com.shambu.passwordvault.Encryptor.encryptString;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,9 +54,12 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder noLockAlert;
     KeyguardManager mKeyguardManager;
 
+    private SharedPreferences pref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        pref = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         pkg= new File(Environment.getExternalStorageDirectory()+"/PassV");
         if(!pkg.exists()){
             pkg.mkdir();
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rr = findViewById(R.id.mainreallay);
+
         rr.setVisibility(View.GONE);
         mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         if (!isDeviceSecure()) {
@@ -76,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null) {
             startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
         }
+
+
 
         bottomNav = findViewById(R.id.bottom_navigation);
         NavController navController = Navigation.findNavController(this, R.id.navhost_fragment);
@@ -88,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS) {
             if (resultCode == RESULT_OK) {
                 rr.setVisibility(View.VISIBLE);
-                //sql_pass_dialogCheck();
+                sql_pass_dialogCheck();
             } else {
                 Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 this.finishAffinity();
@@ -151,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void passwordStrengthCheck(String password) {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         matchspc = patternspc.matcher(password);
         if(password.length() < 8){
@@ -164,21 +167,17 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Password should contain atleast one special character", Toast.LENGTH_SHORT).show();
         }
         else{
-            try {
-                lepass = password;
-                PassRepository passRepository = new PassRepository(getApplication());
-                rr.setVisibility(View.VISIBLE);
-                sql_pass_dialog.dismiss();
-            } catch (Exception e) {
-                Toast.makeText(MainActivity.this, "Password seems incorrect", Toast.LENGTH_SHORT).show();
-            }
+            lepass = password;
+            editor.putString("HASH", encryptString(password));
             editor.putString("FIRSTTIME", "NO");
             editor.commit();
+            rr.setVisibility(View.VISIBLE);
+            sql_pass_dialog.dismiss();
         }
     }
 
     private void sql_pass_dialogCheck() {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        final SharedPreferences pref = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         if(pref.getString("FIRSTTIME", "YES").equals("YES")){
             sql_pass_dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
             sql_pass_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -225,14 +224,14 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (!TextUtils.isEmpty(pass.getText().toString())) {
-                        try {
-                            lepass = pass.getText().toString();
-                            PassRepository passRepository = new PassRepository(getApplication());
-                            rr.setVisibility(View.VISIBLE);
-                            sql_pass_dialog.dismiss();
-                        } catch (Exception e) {
-                            Toast.makeText(MainActivity.this, "Password seems incorrect", Toast.LENGTH_SHORT).show();
-                        }
+                            if(encryptString(pass.getText().toString()).equals(pref.getString("HASH",""))){
+                                lepass = pass.getText().toString();
+                                rr.setVisibility(View.VISIBLE);
+                                sql_pass_dialog.dismiss();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
+                            }
+
                     } else {
                         Toast.makeText(MainActivity.this, "Enter the password", Toast.LENGTH_SHORT).show();
                     }

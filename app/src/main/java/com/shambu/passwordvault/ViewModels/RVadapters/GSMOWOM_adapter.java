@@ -91,14 +91,8 @@ public class GSMOWOM_adapter extends RecyclerView.Adapter<GSMOWOM_adapter.GSMOWO
         return adapterList.size();
     }
 
-    public void refreshList(List<GSMOWOM_data> dataList, int type){
-        List<GSMOWOM_data> subList = new ArrayList<>();
-        for(int i =0; i<dataList.size(); i++){
-            if(dataList.get(i).getD_type()==type){
-                subList.add(dataList.get(i));
-            }
-        }
-        this.adapterList = subList;
+    public void refreshList(List<GSMOWOM_data> dataList){
+        this.adapterList = dataList;
         notifyDataSetChanged();
     }
 

@@ -26,13 +26,11 @@ public class PassRepository {
 
     private LiveData<List<BANKING_data>> allBankdata;
     private LiveData<List<DEVICE_data>> allDevices;
-    private LiveData<List<GSMOWOM_data>> allGSMOWOM;
     private LiveData<List<FAV_data>> allFavdata;
 
-    public PassRepository(Application application) {
-        PassDatabase database = PassDatabase.getInstance(application);
+    public PassRepository(Application application, String userpass) {
+        PassDatabase database = PassDatabase.getInstance(application, userpass);
         gsmowom_data_dao = database.gsmowom_data_dao();
-        allGSMOWOM = gsmowom_data_dao.getAllGSMOWOMdata();
         banking_data_dao = database.banking_data_dao();
         allBankdata = banking_data_dao.getAllBankData();
         device_data_dao = database.device_data_dao();
@@ -98,7 +96,7 @@ public class PassRepository {
     }
 
     public void deleteAllGSMOWOMdata(Integer mailsocialother){
-        new DeleteAllGSMOWOMDataAsyncTask(gsmowom_data_dao).execute();
+        new DeleteAllGSMOWOMDataAsyncTask(gsmowom_data_dao).execute(mailsocialother);
     }
 
     public void deleteAllFAVdata(){
@@ -113,8 +111,8 @@ public class PassRepository {
         return allDevices;
     }
 
-    public LiveData<List<GSMOWOM_data>> getAllGSMOWOMdata(){
-        return allGSMOWOM;
+    public LiveData<List<GSMOWOM_data>> getAllGSMOWOMdata(int dtype){
+        return gsmowom_data_dao.getAllGSMOWOMdata(dtype);
     }
 
     public LiveData<List<FAV_data>> getAllFavdata(){
