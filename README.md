@@ -6,11 +6,17 @@
 
 * Passwords are stored in databases with **256-bit AES** Encryption. (Uses SQLCipher)
 
-* Master password is **not stored anywhere**! Once set, the master password is verified by try-catching it on a sample database. So even the master password is secure with 256-bit AES encryption!
+* Master password is **is hashed using SHA-512**! Once set, the master password is verified by comparing hashes.
 
-* Does not require INTERNET Permissions! So you know your passwords st 
+### Coming soon
 
-* Added an Export - Import option.
+* Delete All Data at once
+
+* Import or Export Encrypted Database
+
+* Sort Passwords
+
+* Change Master Password
 
 ### Screenshots
 
