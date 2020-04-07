@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.shambu.passwordvault.Model.Entities.FAV_data;
 import com.shambu.passwordvault.Model.Entities.GSMOWOM_data;
 import com.shambu.passwordvault.Model.PassRepository;
+import com.shambu.passwordvault.Views.DatabasePasswordActivity;
 import com.shambu.passwordvault.Views.MainActivity;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class GSMOWOMViewModel extends AndroidViewModel {
 
     public GSMOWOMViewModel(@NonNull Application application) {
         super(application);
-        passRepository = new PassRepository(application, MainActivity.lepass);
+        passRepository = new PassRepository(application, DatabasePasswordActivity.lepass);
     }
 
     public void insert(GSMOWOM_data data){

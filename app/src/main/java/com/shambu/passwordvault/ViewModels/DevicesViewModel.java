@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.shambu.passwordvault.Model.Entities.DEVICE_data;
 import com.shambu.passwordvault.Model.Entities.FAV_data;
 import com.shambu.passwordvault.Model.PassRepository;
+import com.shambu.passwordvault.Views.DatabasePasswordActivity;
 import com.shambu.passwordvault.Views.MainActivity;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class DevicesViewModel extends AndroidViewModel {
 
     public DevicesViewModel(@NonNull Application application) {
         super(application);
-        passRepository = new PassRepository(application, MainActivity.lepass);
+        passRepository = new PassRepository(application, DatabasePasswordActivity.lepass);
         allDevices = passRepository.getAllDevices();
     }
 
