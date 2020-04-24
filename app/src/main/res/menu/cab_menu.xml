@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_delete_black_24dp"
         android:orderInCategory="1"
         android:title="Delete"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_edit"
@@ -21,20 +21,20 @@
         android:icon="@drawable/ic_select_all_black_24dp"
         android:orderInCategory="3"
         android:title="Select all"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_share_all"
         android:icon="@drawable/ic_share_black_24dp"
         android:orderInCategory="4"
         android:title="Share"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_fav_all"
         android:icon="@drawable/ic_favorite_border_black_24dp"
         android:orderInCategory="4"
         android:title="Fav"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>

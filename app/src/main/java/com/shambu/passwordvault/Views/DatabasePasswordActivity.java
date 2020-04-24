@@ -2,22 +2,18 @@ package com.shambu.passwordvault.Views;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shambu.passwordvault.R;
-import com.shambu.passwordvault.ViewModels.BankingViewModel;
 import com.shambu.passwordvault.ViewModels.DatabasePassViewModel;
 
 import java.util.regex.Matcher;
@@ -33,7 +28,6 @@ import java.util.regex.Pattern;
 
 import static com.shambu.passwordvault.Constants.REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS;
 import static com.shambu.passwordvault.Constants.SECURITY_SETTING_REQUEST_CODE;
-import static com.shambu.passwordvault.Encryptor.encryptString;
 
 public class DatabasePasswordActivity extends AppCompatActivity {
 
@@ -70,7 +64,7 @@ public class DatabasePasswordActivity extends AppCompatActivity {
 
         mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         if (!isDeviceSecure()) {
-            showAlertifnotsecure();
+            showAlertIfNotSecure();
         }
         Intent intent = mKeyguardManager.createConfirmDeviceCredentialIntent("Unlock Password Vault", "Confirm your screen lock Pattern, PIN or Password");
         if (intent != null) {
@@ -87,7 +81,7 @@ public class DatabasePasswordActivity extends AppCompatActivity {
         }
     }
 
-    private void showAlertifnotsecure() {
+    private void showAlertIfNotSecure() {
         if (Build.VERSION.SDK_INT >= 21) {
             noLockAlert = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog);
         } else {
@@ -123,7 +117,7 @@ public class DatabasePasswordActivity extends AppCompatActivity {
             }
         } else if(requestCode == SECURITY_SETTING_REQUEST_CODE){
             if(!isDeviceSecure()){
-                showAlertifnotsecure();
+                showAlertIfNotSecure();
             } else {
                 Toast.makeText(this, "Lock set", Toast.LENGTH_SHORT).show();
                 recreate();

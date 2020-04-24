@@ -21,12 +21,5 @@
         <item>Pattern</item>
     </string-array>
 
-    <string-array name="SORT_TYPE">
-        <item>Alphabetically / Ascending</item>
-        <item>Zalphabetically / Descending</item>
-        <item>Newest first</item>
-        <item>Oldest first</item>
-    </string-array>
-
 
 </resources>

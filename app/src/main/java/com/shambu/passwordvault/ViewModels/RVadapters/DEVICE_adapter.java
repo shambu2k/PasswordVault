@@ -1,6 +1,5 @@
 package com.shambu.passwordvault.ViewModels.RVadapters;
 
-import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;

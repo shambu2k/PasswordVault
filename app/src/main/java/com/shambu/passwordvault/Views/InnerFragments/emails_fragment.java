@@ -28,14 +28,10 @@ import android.widget.Toast;
 
 import com.shambu.passwordvault.ClickAdapterListener;
 import com.shambu.passwordvault.ViewModels.GSMOWOMViewModel;
-import com.shambu.passwordvault.ViewModels.RVadapters.BANKINGDETAILS_adapter;
 import com.shambu.passwordvault.ViewModels.RVadapters.GSMOWOM_adapter;
 import com.shambu.passwordvault.Model.Entities.GSMOWOM_data;
-import com.shambu.passwordvault.Views.MainActivity;
 import com.shambu.passwordvault.R;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;

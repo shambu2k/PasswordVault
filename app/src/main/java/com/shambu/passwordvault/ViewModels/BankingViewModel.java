@@ -11,7 +11,6 @@ import com.shambu.passwordvault.Model.Entities.BANKING_data;
 import com.shambu.passwordvault.Model.Entities.FAV_data;
 import com.shambu.passwordvault.Model.PassRepository;
 import com.shambu.passwordvault.Views.DatabasePasswordActivity;
-import com.shambu.passwordvault.Views.MainActivity;
 
 import java.util.List;
 

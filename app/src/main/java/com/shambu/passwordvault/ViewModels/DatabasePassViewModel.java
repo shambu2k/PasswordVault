@@ -20,26 +20,18 @@ public class DatabasePassViewModel extends AndroidViewModel {
     }
 
     public Boolean isFirstTime(){
-        if(pref.getString("FIRSTTIME", "YES").equals("YES")){
-            return true;
-        } else {
-            return false;
-        }
+        return pref.getString("FIRSTTIME", "YES").equals("YES");
     }
 
     public void addPassToPref(String password){
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("HASH", encryptString(password));
         editor.putString("FIRSTTIME", "NO");
-        editor.commit();
+        editor.apply();
     }
 
     public Boolean passChecker(String password){
-        if(encryptString(password).equals(pref.getString("HASH",""))){
-            return true;
-        } else {
-            return false;
-        }
+        return encryptString(password).equals(pref.getString("HASH", ""));
     }
 
     public void settingsChecker() {

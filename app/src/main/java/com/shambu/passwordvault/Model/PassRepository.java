@@ -14,7 +14,6 @@ import com.shambu.passwordvault.Model.Entities.DEVICE_data;
 import com.shambu.passwordvault.Model.Entities.FAV_data;
 import com.shambu.passwordvault.Model.Entities.GSMOWOM_data;
 
-import java.security.PublicKey;
 import java.util.List;
 
 public class PassRepository {

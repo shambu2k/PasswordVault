@@ -205,7 +205,7 @@ public class FAV_adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public String FAVgetShareData(int position){
         String singleShare = "";
         if(getItemViewType(position)==TYPE_GSMOWOM){
-            GSMOWOM_data data = new GSMOWOM_data();
+            GSMOWOM_data data;
             Gson gson = new Gson();
             data = gson.fromJson(adapter_list.get(position).getGsmowom_data(), GSMOWOM_data.class);
             singleShare = data.getD_provider()+" Credentials\n"+
@@ -216,7 +216,7 @@ public class FAV_adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     "Notes: "+data.getD_adiInfo()+"\n";
         }
         else if(getItemViewType(position)==TYPE_DEVICE){
-            DEVICE_data data = new DEVICE_data();
+            DEVICE_data data;
             Gson gson = new Gson();
             data = gson.fromJson(adapter_list.get(position).getDevice_data(), DEVICE_data.class);
             singleShare = data.getDevice_Type()+": "+
@@ -224,7 +224,7 @@ public class FAV_adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     data.getSecurityType()+": "+data.getPINorPassorPattern()+"\n";
         }
         else if(getItemViewType(position)==TYPE_BANK){
-            BANKING_data data = new BANKING_data();
+            BANKING_data data;
             Gson gson = new Gson();
             data = gson.fromJson(adapter_list.get(position).getBanking_data(), BANKING_data.class);
             singleShare = "Bank: "+data.getBankName()+"\n"+
